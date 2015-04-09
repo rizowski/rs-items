@@ -1,0 +1,17 @@
+{
+  "name": "rs-items",
+  "version": "0.0.0",
+  "description": "Tracks Runescape Items",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "runescape"
+  ],
+  "author": "Colten Rouska",
+  "license": "ISC",
+  "devDependencies": {
+    "karma": "^0.12.31"
+  }
+}
