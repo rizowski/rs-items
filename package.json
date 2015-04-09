@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "bunyan": "^1.3.4",
+    "jasmine": "^2.2.1",
     "karma": "^0.12.31"
   }
 }
