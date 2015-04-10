@@ -11,7 +11,7 @@ describe("parser", function(){
       var result = p.removeSymbols("+5");
       expect(result).toBe(5);
     });
-    
+
     it("removes % and multiplies number by .01", function(){
       var result = p.removeSymbols("5%");
       expect(result).toBe(0.05);
@@ -39,7 +39,7 @@ describe("parser", function(){
       var result = p.replace("+4", "+", "");
       expect(result).toBe("4");
     });
-    
+
     it("removes %", function(){
       var result = p.replace("4%", "%", "");
       expect(result).toBe("4");
