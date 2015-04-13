@@ -1,8 +1,7 @@
-var Parser = require('./parser');
+var parser = require('./parser');
 
 function Item(obj) {
-  var self = this,
-    parser = new Parser();
+  var self = this;
 
   self.update = function (item) {
     var prices = item.prices;
