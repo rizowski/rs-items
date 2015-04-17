@@ -1,4 +1,5 @@
-var parser = require('./parser');
+var parser = require('./parser'),
+  mongoose = require('mongoose');
 
 function Item(obj) {
   var self = this;
@@ -27,6 +28,29 @@ function Item(obj) {
     self.days90Change = prices ? parser.removeSymbols(prices.days90.change) : item.days90Change;
     self.days180Change = prices ? parser.removeSymbols(prices.days180.change) : item.days180Change;
     return self;
+  }
+
+  self.getSchema = function () {
+    return mongoose.Schema({
+      id: self.id,
+      name: self.name,
+      description: self.description,
+      icon: self.icon,
+      type: self.type,
+      isMembers: self.isMembers,
+      buyLimit: self.buyLimit,
+
+      currentTrend: self.currentTrend,
+      todaysTrend: self.todaysTrend,
+      days30Trend: self.days30Trend,
+      days90Trend: self.days90Trend,
+      days180Trend: self.days180Trend,
+      currentPrice: self.currentPrice,
+      todaysChange: self.todaysChange,
+      days30Change: self.days30Change,
+      days90Change: self.days90Change,
+      days180Change: self.days180Change
+    });
   }
 
   self.update(obj);

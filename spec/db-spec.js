@@ -1,14 +1,19 @@
-var DB = require("../src/dbManager"),
-  proxy = require("proxyquire");
+var proxy = require("proxyquire");
 
 describe("DB Manager", function () {
-  var db;
+  var db,
+    mock;
   beforeEach(function () {
-    db = new DB();
+    mock = {
+      'mongoose': {
+        connect: function () {}
+      }
+    };
+    DB = proxy("../src/dbManager", mock);
+    db = new DB({});
   });
 
   it("has default settings if nothing is provided", function () {
-
     var defaultSettings = {
       dbName: "runescape",
       baseUrl: "https://api.mongolab.com/api/1/",
@@ -22,15 +27,6 @@ describe("DB Manager", function () {
     expect(db.settings.baseUrl).toBe(defaultSettings.baseUrl);
     expect(db.settings.urls.collections).toBe(defaultSettings.urls.collections);
     expect(db.settings.urls.items).toBe(defaultSettings.urls.items);
-  });
-
-  it("has a key if one is provided", function () {
-    var obj = {
-      key: "Imma Key"
-    };
-    db = new DB(obj);
-
-    expect(db.settings.key).toBe(obj.key);
   });
 
   describe("GET", function () {

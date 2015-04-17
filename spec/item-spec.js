@@ -1,10 +1,20 @@
 var proxy = require("proxyquire"),
-    Item;
+  Item;
 
 describe("item", function () {
-  beforeEach(function(){
-    var mock = {
-      './parser': {removeSymbols: function(i){return i;}}
+  var mock;
+  beforeEach(function () {
+    mock = {
+      './parser': {
+        removeSymbols: function (i) {
+          return i;
+        }
+      },
+      'mongoose': {
+        Schema: function (obj) {
+          return obj;
+        }
+      }
     };
     Item = proxy("../src/item", mock);
   });
@@ -111,6 +121,19 @@ describe("item", function () {
       expect(newItem.days30Change).toBe(7);
       expect(newItem.days90Change).toBe(8);
       expect(newItem.days180Change).toBe(9);
-    })
+    });
+
+    describe("getSchema()", function () {
+      var item;
+      beforeEach(function () {
+        item = new Item(comparisonObj);
+        spyOn(mock.mongoose, "Schema");
+      });
+
+      it("calls mongoose's Schema method", function () {
+        item.getSchema();
+        expect(mock.mongoose.Schema).toHaveBeenCalled();
+      });
+    });
   });
 });
