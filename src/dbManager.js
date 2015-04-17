@@ -1,22 +1,20 @@
-function RsDb(settings) {
-  var self = this,
-    key = settings.key,
-    dbName = settings.db || "runescape",
-    baseUrl = settings.baseUrl || "https://api.mongolab.com/api/1/",
-    urls = settings.urls || {
-      collections: baseUrl + "databases/" + dbName + "/collections",
-    };
+var rest = require("rest"),
+  mongoose = require('mongoose'),
+  _ = require('lodash');
 
-  self.queryUrls = {
-    collections: {
-      url: urls.collections,
-      type: "GET"
-    },
-    items: {
-      url: urls.collections + "/items",
-      type: "GET"
-    }
+function RsDb(key) {
+  var self = this;
+  self.settings = {};
+  self.settings.dbName = "runescape";
+  self.settings.baseUrl = "https://api.mongolab.com/api/1/";
+  self.settings.urls = {
+    collections: self.settings.baseUrl + "databases/" + self.settings.dbName + "/collections",
+    items: self.settings.baseUrl + "databases/" + self.settings.dbName + "/collections/items"
   };
+  _.defaults(self.settings, key);
+
+
+  //encodeURI will need to be used
 
   self.get = function (url, settings) {
     var options = {
@@ -59,21 +57,8 @@ function RsDb(settings) {
       method: "DELETE",
       contentType: "application/json"
     };
-    return JSON.parse(UrlFetchApp.fetch(self.queryUrls.items.url + "/" + id["$oid"] + key, options));
+    return JSON.parse(UrlFetchApp.fetch(self.settings.urls.items + "/" + id["$oid"] + key, options));
   };
-
-  self.test = function () {
-    //self.remove({"$oid" : "5516f9bbe4b0ca8be58f977a"});
-    //self.save(self.queryUrls.items, [{id: 2, name: "Cannon ball"}, {id: 222, name: "Gold Bar"}, {id: 33, name: "Gold ball"}]);
-    self.find(self.queryUrls.items, {
-      id: 222
-    });
-  }
 }
 
-
-
-function run_() {
-  var thing = new RsDb();
-  thing.test();
-}
+module.exports = RsDb;
