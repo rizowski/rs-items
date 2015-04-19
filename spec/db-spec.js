@@ -6,7 +6,11 @@ describe("DB Manager", function () {
   beforeEach(function () {
     mock = {
       'mongoose': {
-        connect: function () {}
+        connect: function () {},
+        connection: {
+          on: function () {},
+          once: function () {}
+        }
       }
     };
     DB = proxy("../src/dbManager", mock);

@@ -6,7 +6,10 @@ This project gives the option to track runescape items using your own database. 
 
 ##How to run
 1. `git clone`
-2. npm install
+2. cd into project folder
+3. `npm install -g jasmine`
+4. `npm install`
+5. `jasmine` (all tests should pass)
 
 ##Helping out
 1. `git co -b featureName`

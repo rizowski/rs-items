@@ -5,7 +5,7 @@ var parser = {};
  * @param {string} payload
  * @return {number}
  */
-parser.removeSymbols = function(payload){
+parser.removeSymbols = function (payload) {
   if (typeof payload !== "string") throw new TypeError("Argument is not a string");
   if (payload.contains("+")) {
     payload = parser.replace(payload, "+", "");
@@ -25,7 +25,7 @@ parser.removeSymbols = function(payload){
  * @param {string} replace
  * @return {string} returns the new string with replaced values
  */
-parser.replace = function(payload, symbol, replace){
+parser.replace = function (payload, symbol, replace) {
   if (typeof payload !== "string") throw new TypeError("First argument is not a string");
   return payload.replace(symbol, replace);
 };
@@ -36,7 +36,7 @@ parser.replace = function(payload, symbol, replace){
  * @param {string} payload
  * @return {number} Returns the formatted number
  */
-parser.price = function(payload){
+parser.price = function (payload) {
   var pattern = new RegExp(/\d*\.?,?\d*[kmb]?/),
     dotPattern = new RegExp(/\d*\.?\d*/),
     comPattern = new RegExp(/\d*\,?\d*/),
