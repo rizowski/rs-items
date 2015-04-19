@@ -4,7 +4,7 @@ var rest = require("rest"),
   settings = require('../config');
 
 function RsDb() {
-  if (_.isUndefined(settings.credentials))
+  if (_.isUndefined(settings.db.credentials))
     throw new TypeError("Username and password are not provided in the config {username: , password}");
 
   var self = this,
@@ -16,7 +16,7 @@ function RsDb() {
       item: "item",
       quest: "quest"
     };
-    self.connectionUrl = 'mongodb://' + settings.credentials.username + ":" + settings.credentials.password + "@" + settings.db.server + ":" + settings.db.port + "/" + settings.db.name;
+    self.connectionUrl = 'mongodb://' + settings.db.credentials.username + ":" + settings.db.credentials.password + "@" + settings.db.server + ":" + settings.db.port + "/" + settings.db.name;
 
     mongoose.connect(self.connectionUrl);
 
@@ -26,7 +26,7 @@ function RsDb() {
     });
   };
 
-  self.save = function (type, model) {
+  self.save = function (model) {
     model.save(function (err, model) {
       if (err) return console.log(err); //bunyan
     });
@@ -47,7 +47,7 @@ function RsDb() {
   }
 
   self.remove = function (findBy, Model, callback) {
-    Model.find(findBy, function (err) {
+    Model.remove(findBy, function (err) {
       if (err) return console.log(err); //bunyan
       callback();
     })
