@@ -12,9 +12,18 @@ This project gives the option to track runescape items using your own database. 
 5. `jasmine` (all tests should pass)
 
 ##Helping out
+If you are working on a particular issue on the repo please tag it with `#number`. This will help us keep track with what is being worked on.
+
 1. `git co -b featureName`
 2. `git push origin featureName`
 3. create a pull request for the branch
 4. Check to see if your pullrequest build past [here](https://travis-ci.org/rizowski/rs-items/pull_requests)
 
 When the pull request build passes the pull request will be valid to be pulled in. Tests will be required to be written for new code and enhancements when needed.
+
+##Tools that are used
+ - [Brackets](http://brackets.io/)
+   - editorconfig extension
+   - Beautify extension
+ - [cmdr](http://gooseberrycreative.com/cmder/)
+

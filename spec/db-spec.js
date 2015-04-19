@@ -6,31 +6,32 @@ describe("DB Manager", function () {
   beforeEach(function () {
     mock = {
       'mongoose': {
-        connect: function () {},
+        connect: function (url) {
+          return url;
+        },
         connection: {
           on: function () {},
           once: function () {}
         }
+      },
+      '../config': {
+        server: "ip",
+        port: 5,
+        credentials: {
+          username: "bob",
+          password: "notSecure"
+        },
+        db: {
+          name: "muhDb"
+        }
       }
     };
     DB = proxy("../src/dbManager", mock);
-    db = new DB({});
+    db = new DB();
   });
 
-  it("has default settings if nothing is provided", function () {
-    var defaultSettings = {
-      dbName: "runescape",
-      baseUrl: "https://api.mongolab.com/api/1/",
-      urls: {
-        collections: "https://api.mongolab.com/api/1/databases/runescape/collections",
-        items: "https://api.mongolab.com/api/1/databases/runescape/collections/items"
-      }
-    };
-
-    expect(db.settings.dbName).toBe(defaultSettings.dbName);
-    expect(db.settings.baseUrl).toBe(defaultSettings.baseUrl);
-    expect(db.settings.urls.collections).toBe(defaultSettings.urls.collections);
-    expect(db.settings.urls.items).toBe(defaultSettings.urls.items);
+  it("connects to the correct url", function () {
+    expect(db.connectionUrl).toBe('mongodb://bob:notSecure@ip:5/muhDb');
   });
 
   describe("GET", function () {
