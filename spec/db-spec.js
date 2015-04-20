@@ -1,5 +1,4 @@
-var proxy = require("proxyquire");
-
+var proxy = require('proxyquire');
 describe("DB Manager", function () {
   var db,
     mock;

@@ -1,5 +1,4 @@
-var rest = require("rest"),
-  mongoose = require('mongoose'),
+var mongoose = require('mongoose'),
   _ = require('lodash'),
   settings = require('../config');
 

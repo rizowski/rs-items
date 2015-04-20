@@ -1,4 +1,5 @@
 var parser = require('../src/parser');
+
 describe("parser", function () {
   describe("removeSymbols()", function () {
     it("removes +", function () {

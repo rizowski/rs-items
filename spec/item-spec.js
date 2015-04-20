@@ -1,8 +1,6 @@
-var proxy = require("proxyquire"),
-  item;
-
+var proxy = require('proxyquire');
 describe("item", function () {
-  var mock;
+  var mock, item;
   beforeEach(function () {
     mock = {
       './parser': {
@@ -13,6 +11,9 @@ describe("item", function () {
       'mongoose': {
         Schema: function (obj) {
           return obj;
+        },
+        model: function () {
+          return {};
         }
       }
     };
@@ -78,7 +79,7 @@ describe("item", function () {
       }
     });
 
-    describe("parseItem()", function(){
+    describe("parseItem()", function () {
       it("sets properties for a db item", function () {
         var newItem = item.parseItem(comparisonObj);
 
