@@ -52,11 +52,15 @@ itemObj.parseItem = function (item) {
   };
 };
 
-itemObj.createItem = function (item) {
+itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
-  var ItemModel = mongoose.model('Item', itemSchema);
+  return mongoose.model('Item', itemSchema);
+}();
+
+itemObj.createItem = function (item) {
   var parsedItem = itemObj.parseItem(item);
-  return new ItemModel(parsedItem);
+  var newItem = new itemObj.model(parsedItem);
+  return newItem;
 }
 
 module.exports = itemObj;
