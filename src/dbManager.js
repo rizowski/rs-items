@@ -1,79 +1,59 @@
-function RsDb(settings) {
+var mongoose = require('mongoose'),
+  _ = require('lodash'),
+  settings = require('../config');
+
+function RsDb() {
+  if (_.isUndefined(settings.db.credentials))
+    throw new TypeError("Username and password are not provided in the config {username: , password}");
+
   var self = this,
-    key = settings.key,
-    dbName = settings.db || "runescape",
-    baseUrl = settings.baseUrl || "https://api.mongolab.com/api/1/",
-    urls = settings.urls || {
-      collections: baseUrl + "databases/" + dbName + "/collections",
-    };
+    db = mongoose.connection,
+    setup;
 
-  self.queryUrls = {
-    collections: {
-      url: urls.collections,
-      type: "GET"
-    },
-    items: {
-      url: urls.collections + "/items",
-      type: "GET"
-    }
+  setup = function () {
+    self.types = {
+      item: "item",
+      quest: "quest"
+    };
+    self.connectionUrl = 'mongodb://' + settings.db.credentials.username + ":" + settings.db.credentials.password + "@" + settings.db.server + ":" + settings.db.port + "/" + settings.db.name;
+
+    mongoose.connect(self.connectionUrl);
+
+    db.on("error", console.error.bind(console, 'connection error:'));
+    db.once("open", function (next) {
+      console.log("Connected.");
+    });
   };
 
-  self.get = function (url, settings) {
-    var options = {
-      method: "GET",
-      contentType: "application/json"
-    };
-
-    return JSON.parse(UrlFetchApp.fetch(url.url + key, options));
-  };
-
-  self.find = function (url, queryObj) {
-    var options = {
-      method: "GET",
-      escaping: false
-    }
-    var fullurl = url.url + key + "&q=" + JSON.stringify(queryObj) + "&fo=true";
-    fullurl = encodeURI(fullurl);
-    return JSON.parse(UrlFetchApp.fetch(fullurl, options));
-  }
-
-  self.save = function (url, payload, singleId) {
-    var options = {
-      method: "PUT",
-      contentType: "application/json",
-      payload: JSON.stringify(payload)
-    };
-    var additional = "";
-    if (singleId) {
-      var obj = JSON.stringify({
-        id: singleId
-      });
-      additional = "&q=" + obj;
-      additional = encodeURI(additional);
-    }
-    return JSON.parse(UrlFetchApp.fetch(url.url + key + "&u=true" + additional, options));
-  };
-
-  self.remove = function (id) {
-    var options = {
-      method: "DELETE",
-      contentType: "application/json"
-    };
-    return JSON.parse(UrlFetchApp.fetch(self.queryUrls.items.url + "/" + id["$oid"] + key, options));
-  };
-
-  self.test = function () {
-    //self.remove({"$oid" : "5516f9bbe4b0ca8be58f977a"});
-    //self.save(self.queryUrls.items, [{id: 2, name: "Cannon ball"}, {id: 222, name: "Gold Bar"}, {id: 33, name: "Gold ball"}]);
-    self.find(self.queryUrls.items, {
-      id: 222
+  self.save = function (model) {
+    model.save(function (err, model) {
+      if (err) return console.log(err); //bunyan
     });
   }
+
+  self.findAll = function (Model, callback) {
+    Model.find(function (err, models) {
+      if (err) return console.log(err); //bunyan
+      callback(models);
+    })
+  }
+
+  self.find = function (findBy, Model, callback) {
+    Model.find(findBy, function (err, model) {
+      if (err) return console.log(erro); //bunyan
+      callback(model);
+    });
+  }
+
+  self.remove = function (findBy, Model, callback) {
+    Model.remove(findBy, function (err) {
+      if (err) return console.log(err); //bunyan
+      callback();
+    })
+  }
+
+
+  setup();
 }
 
-
-
-function run_() {
-  var thing = new RsDb();
-  thing.test();
-}
+module.exports = RsDb;

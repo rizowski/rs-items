@@ -6,11 +6,31 @@ This project gives the option to track runescape items using your own database. 
 
 ##How to run
 1. `git clone`
-2. npm install
+2. cd into project folder
+3. `npm install -g jasmine`
+4. `npm install`
+5. `jasmine` (all tests should pass)
 
 ##Helping out
+If you are working on a particular issue on the repo please tag it with `#number`. This will help us keep track with what is being worked on.
+
 1. `git co -b featureName`
 2. `git push origin featureName`
 3. create a pull request for the branch
+4. Check to see if your pullrequest build past [here](https://travis-ci.org/rizowski/rs-items/pull_requests)
 
 When the pull request build passes the pull request will be valid to be pulled in. Tests will be required to be written for new code and enhancements when needed.
+
+##Tools that are used
+ - [Brackets](http://brackets.io/)
+   - Code folding
+   - Indent Guides
+   - Documents-toolbar
+   - icons
+   - line-endings
+   - quickdocs
+   - brackets git
+   - Beautify extension
+ - [cmdr](http://gooseberrycreative.com/cmder/) is probably the best terminal I have found for windows.
+
+
