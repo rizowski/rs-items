@@ -1,4 +1,11 @@
-var proxy = require('proxyquire');
+var proxy = require('proxyquire'),
+    chai = require('chai'),
+    expect = chai.expect,
+    sinon = require('sinon'),
+    sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
+
 describe("item", function () {
   var mock, item;
   beforeEach(function () {
@@ -83,57 +90,54 @@ describe("item", function () {
       it("sets properties for a db item", function () {
         var newItem = item.parseItem(comparisonObj);
 
-        expect(newItem.id).toBe(comparisonObj.id);
-        expect(newItem.name).toBe(comparisonObj.name);
-        expect(newItem.description).toBe(comparisonObj.description);
-        expect(newItem.icon).toBe(comparisonObj.icon);
-        expect(newItem.type).toBe(comparisonObj.type);
-        expect(newItem.isMembers).toBe(comparisonObj.isMembers);
-        expect(newItem.buyLimit).toBe(comparisonObj.buyLimit);
-        expect(newItem.currentTrend).toBe(comparisonObj.currentTrend);
-        expect(newItem.todaysTrend).toBe(comparisonObj.todaysTrend);
-        expect(newItem.days30Trend).toBe(comparisonObj.days30Trend);
-        expect(newItem.days90Trend).toBe(comparisonObj.days90Trend);
-        expect(newItem.days180Trend).toBe(comparisonObj.days180Trend);
-        expect(newItem.currentPrice).toBe(comparisonObj.currentPrice);
-        expect(newItem.todaysChange).toBe(comparisonObj.todaysChange);
-        expect(newItem.days30Change).toBe(comparisonObj.days30Change);
-        expect(newItem.days90Change).toBe(comparisonObj.days90Change);
-        expect(newItem.days180Change).toBe(comparisonObj.days180Change);
+        expect(newItem.id).to.equal(comparisonObj.id);
+        expect(newItem.name).to.equal(comparisonObj.name);
+        expect(newItem.description).to.equal(comparisonObj.description);
+        expect(newItem.icon).to.equal(comparisonObj.icon);
+        expect(newItem.type).to.equal(comparisonObj.type);
+        expect(newItem.isMembers).to.equal(comparisonObj.isMembers);
+        expect(newItem.buyLimit).to.equal(comparisonObj.buyLimit);
+        expect(newItem.currentTrend).to.equal(comparisonObj.currentTrend);
+        expect(newItem.todaysTrend).to.equal(comparisonObj.todaysTrend);
+        expect(newItem.days30Trend).to.equal(comparisonObj.days30Trend);
+        expect(newItem.days90Trend).to.equal(comparisonObj.days90Trend);
+        expect(newItem.days180Trend).to.equal(comparisonObj.days180Trend);
+        expect(newItem.currentPrice).to.equal(comparisonObj.currentPrice);
+        expect(newItem.todaysChange).to.equal(comparisonObj.todaysChange);
+        expect(newItem.days30Change).to.equal(comparisonObj.days30Change);
+        expect(newItem.days90Change).to.equal(comparisonObj.days90Change);
+        expect(newItem.days180Change).to.equal(comparisonObj.days180Change);
       });
 
       it("sets properties for an rs item", function () {
         var newItem = item.parseItem(rsApiObj);
 
-        expect(newItem.id).toBe(rsApiObj.id);
-        expect(newItem.name).toBe(rsApiObj.name);
-        expect(newItem.description).toBe(rsApiObj.description);
-        expect(newItem.icon).toBe(rsApiObj.icon);
-        expect(newItem.type).toBe(rsApiObj.type);
-        expect(newItem.isMembers).toBe(rsApiObj.members);
+        expect(newItem.id).to.equal(rsApiObj.id);
+        expect(newItem.name).to.equal(rsApiObj.name);
+        expect(newItem.description).to.equal(rsApiObj.description);
+        expect(newItem.icon).to.equal(rsApiObj.icon);
+        expect(newItem.type).to.equal(rsApiObj.type);
+        expect(newItem.isMembers).to.equal(rsApiObj.members);
 
-        expect(newItem.currentTrend).toBe(rsApiObj.prices.current.trend);
-        expect(newItem.todaysTrend).toBe(rsApiObj.prices.today.trend);
-        expect(newItem.days30Trend).toBe(rsApiObj.prices.days30.trend);
-        expect(newItem.days90Trend).toBe(rsApiObj.prices.days90.trend);
-        expect(newItem.days180Trend).toBe(rsApiObj.prices.days180.trend);
+        expect(newItem.currentTrend).to.equal(rsApiObj.prices.current.trend);
+        expect(newItem.todaysTrend).to.equal(rsApiObj.prices.today.trend);
+        expect(newItem.days30Trend).to.equal(rsApiObj.prices.days30.trend);
+        expect(newItem.days90Trend).to.equal(rsApiObj.prices.days90.trend);
+        expect(newItem.days180Trend).to.equal(rsApiObj.prices.days180.trend);
 
-        expect(newItem.currentPrice).toBe(5);
-        expect(newItem.todaysChange).toBe(6);
-        expect(newItem.days30Change).toBe(7);
-        expect(newItem.days90Change).toBe(8);
-        expect(newItem.days180Change).toBe(9);
+        expect(newItem.currentPrice).to.equal(5);
+        expect(newItem.todaysChange).to.equal(6);
+        expect(newItem.days30Change).to.equal(7);
+        expect(newItem.days90Change).to.equal(8);
+        expect(newItem.days180Change).to.equal(9);
       });
     });
 
     describe("getSchema()", function () {
-      beforeEach(function () {
-        spyOn(mock.mongoose, "Schema");
-      });
-
       it("calls mongoose's Schema method", function () {
+        var spy = sinon.spy(mock.mongoose, "Schema");
         item.getSchema();
-        expect(mock.mongoose.Schema).toHaveBeenCalled();
+        expect(spy).to.have.been.called;
       });
     });
   });
