@@ -1,7 +1,14 @@
-var proxy = require('proxyquire');
+var proxy = require('proxyquire'),
+chai = require('chai'),
+expect = chai.expect,
+sinon = require('sinon'),
+sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
+
 describe("DB Manager", function () {
   var db,
-    mock;
+  mock;
   beforeEach(function () {
     mock = {
       'mongoose': {
@@ -30,7 +37,7 @@ describe("DB Manager", function () {
   });
 
   it("connects to the correct url", function () {
-    expect(db.connectionUrl).toBe('mongodb://bob:notSecure@ip:5/db');
+    expect(db.connectionUrl).to.equal('mongodb://bob:notSecure@ip:5/db');
   });
 
   describe("db functions", function () {
@@ -40,30 +47,30 @@ describe("DB Manager", function () {
         find: function () {},
         save: function () {},
         remove: function () {}
-      }
-      spyOn(Model, "find");
-      spyOn(Model, "save");
-      spyOn(Model, "remove");
+      };
     });
 
     describe("find()", function () {
       it("calls Model.find", function () {
+        var spy = sinon.spy(Model, 'find');
         db.find({}, Model);
-        expect(Model.find).toHaveBeenCalled();
+        expect(spy).to.have.been.called;
       });
     });
 
     describe("save()", function () {
       it("calls Model.save", function () {
+        var spy = sinon.spy(Model, 'save');
         db.save(Model);
-        expect(Model.save).toHaveBeenCalled();
+        expect(spy).to.have.been.called;
       });
     });
 
     describe("remove()", function () {
       it("calls Model.find", function () {
+        var spy = sinon.spy(Model, 'remove');
         db.remove({}, Model);
-        expect(Model.remove).toHaveBeenCalled();
+        expect(spy).to.have.been.called;
       });
     });
   });

@@ -8,3 +8,6 @@ notifications:
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
+scripts:
+  - "npm run-script ci"
+before_install: "npm install -g istanbul mocha"
