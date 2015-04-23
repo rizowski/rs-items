@@ -11,8 +11,8 @@
   "repository": "https://github.com/rizowski/rs-items",
   "bugs": "https://github.com/rizowski/rs-items/labels/bug",
   "scripts": {
-    "test": "node_modules/mocha/mocha.js --watch --bail --colors --reporter spec ./spec",
-    "ci": "node_modules/istanbul cover --report text _mocha spec -- -u exports -R spec"
+    "test": "mocha --watch --bail --colors --reporter spec ./spec",
+    "ci": "istanbul cover --report text _mocha spec -- -u exports -R spec"
   },
   "keywords": [
     "runescape"
@@ -26,8 +26,6 @@
   },
   "devDependencies": {
     "chai": "^2.2.0",
-    "istanbul": "^0.3.13",
-    "mocha": "^2.2.4",
     "proxyquire": "^1.4.0",
     "sinon-chai": "^2.7.0"
   }
