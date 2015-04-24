@@ -12,7 +12,7 @@
   "bugs": "https://github.com/rizowski/rs-items/labels/bug",
   "scripts": {
     "test": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "istanbul cover --report text _mocha spec -- -u exports -R spec"
+    "ci": "istanbul cover --report text -x \"**/spec/**\" _mocha spec -- -u exports -R spec"
   },
   "keywords": [
     "runescape"
@@ -20,6 +20,7 @@
   "author": "Colten Rouska",
   "license": "ISC",
   "dependencies": {
+    "bunyan": "^1.3.5",
     "lodash": "^3.6.0",
     "mongoose": "^4.0.1",
     "rest": "^1.3.0"
@@ -27,6 +28,7 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "proxyquire": "^1.4.0",
+    "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   }
 }
