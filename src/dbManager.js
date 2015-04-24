@@ -1,8 +1,7 @@
 var mongoose = require('mongoose'),
   _ = require('lodash'),
   settings = require('../config')
-  LogManager = require('./log-manager')
-  log = new LogManager().getTraceLogger('dbManager');
+  log = require('./log-manager');
 
 function RsDb() {
   if (_.isUndefined(settings.db.credentials))

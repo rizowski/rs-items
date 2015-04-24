@@ -1,18 +1,16 @@
 var internalLogger = require('bunyan'),
-    fs = require('fs');
+    fs = require('fs'),
+    checkLogFolderExists,
+    logPath = __dirname + '/../logs';
 
-function LogManager() {
-  var self = this,
-      logPath = __dirname+'/../logs',
-      checkLogFolderExists;
-
+var LogManager = {
   /**
   * Gets a new rotating file logger with the provided name
   * @param {String} name - The name of the logger, usually the name of the class performing the logging
   * @returns {Logger}: A bunyan logger for logging info on a rotating file
   */
-  self.getTraceLogger = function(loggerName) {
-    checkLogFolderExists('trace');
+  getTraceLogger: function(loggerName) {
+    checkLogFolderExists();
 
     return internalLogger.createLogger({
       name: loggerName,
@@ -23,16 +21,15 @@ function LogManager() {
         count: 10
       }]
     });
-  }
+  },
 
   /**
   * Gets a new rotating file logger with the provided name for error logging
   * @param {String} name - The name of the logger, usually the name of the class performing the logging
   * @returns {Logger}: A bunyan logger for logging errors on a rotating file
   */
-  self.getErrorLogger = function(loggerName) {
-    checkLogFolderExists('error');
-    // fs.open(logPath+'/error.log', 'a+', function(err, fd) {});
+  getErrorLogger: function(loggerName) {
+    checkLogFolderExists();
 
     return internalLogger.createLogger({
       name: loggerName,
@@ -45,15 +42,14 @@ function LogManager() {
       }]
     });
   }
+};
 
-  checkLogFolderExists = function(logName) {
-    try {
-      fs.mkdirSync(logPath);
-    }
-    catch (e) {
-      console.log('Folder', logPath, "already exists.");
-    }
+checkLogFolderExists = function() {
+  try {
+    fs.mkdirSync(logPath);
+  } catch (e) {
+    console.log('Folder', logPath, "already exists.");
   }
-}
+};
 
 module.exports = LogManager;

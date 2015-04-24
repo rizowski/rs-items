@@ -10,8 +10,7 @@ describe('Log Manager', function() {
   var logManager;
 
   beforeEach(function() {
-    var LogManager = require('../src/log-manager');
-    logManager = new LogManager();
+    logManager = require('../src/log-manager');
   });
 
   it('gets trace logger with name', function() {
@@ -22,7 +21,7 @@ describe('Log Manager', function() {
     expect(logger.fields.name).to.equal('test');
   });
 
-  it('gets trace logger with name', function() {
+  it('gets error logger with name', function() {
     var logger = logManager.getErrorLogger('error-test');
     expect(logger._level).to.equal(bunyan.ERROR);
     expect(logger.streams).to.have.length(1);

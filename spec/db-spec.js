@@ -1,15 +1,21 @@
 var proxy = require('proxyquire'),
-chai = require('chai'),
-expect = chai.expect,
-sinon = require('sinon'),
-sinonChai = require('sinon-chai');
+    chai  = require('chai'),
+    expect = chai.expect,
+    sinon = require('sinon'),
+    sinonChai = require('sinon-chai'),
+    log = require('../src/log-manager');
 
 chai.use(sinonChai);
 
 describe("DB Manager", function () {
   var db,
-  mock;
-  beforeEach(function () {
+      mock,
+      loggerStub;
+
+  before(function () {
+    loggerStub = sinon.stub(log, 'getTraceLogger');
+    loggerStub.returns({info: function() {}});
+
     mock = {
       'mongoose': {
         connect: function (url) {
@@ -34,6 +40,10 @@ describe("DB Manager", function () {
     };
     DB = proxy("../src/dbManager", mock);
     db = new DB();
+  });
+
+  after(function() {
+    log.getTraceLogger.restore();
   });
 
   it("connects to the correct url", function () {
