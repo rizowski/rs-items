@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
   _ = require('lodash'),
-  settings = require('../config');
+  settings = require('../config')
+  LogManager = require('./log-manager')
+  log = new LogManager().getTraceLogger('dbManager');
 
 function RsDb() {
   if (_.isUndefined(settings.db.credentials))
@@ -27,27 +29,27 @@ function RsDb() {
 
   self.save = function (model) {
     model.save(function (err, model) {
-      if (err) return console.log(err); //bunyan
+      if (err) return log.error(err);
     });
   }
 
   self.findAll = function (Model, callback) {
     Model.find(function (err, models) {
-      if (err) return console.log(err); //bunyan
+      if (err) return log.error(err);
       callback(models);
     })
   }
 
   self.find = function (findBy, Model, callback) {
     Model.find(findBy, function (err, model) {
-      if (err) return console.log(erro); //bunyan
+      if (err) return log.error(err);
       callback(model);
     });
   }
 
   self.remove = function (findBy, Model, callback) {
     Model.remove(findBy, function (err) {
-      if (err) return console.log(err); //bunyan
+      if (err) return log.error(err);
       callback();
     })
   }
