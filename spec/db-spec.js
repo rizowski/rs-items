@@ -1,22 +1,24 @@
 'use-strict';
 /* global describe, before, beforeEach, after, afterEach, it*/
 var proxy = require('proxyquire'),
-    chai  = require('chai'),
-    expect = chai.expect,
-    sinon = require('sinon'),
-    sinonChai = require('sinon-chai'),
-    log = require('../src/log-manager');
+  chai = require('chai'),
+  expect = chai.expect,
+  sinon = require('sinon'),
+  sinonChai = require('sinon-chai'),
+  log = require('../src/log-manager');
 
 chai.use(sinonChai);
 
 describe("DB Manager", function () {
   var db,
-      mock,
-      loggerStub;
+    mock,
+    loggerStub;
 
   before(function () {
     loggerStub = sinon.stub(log, 'getTraceLogger');
-    loggerStub.returns({info: function() {}});
+    loggerStub.returns({
+      info: function () {}
+    });
 
     mock = {
       'mongoose': {
@@ -28,37 +30,53 @@ describe("DB Manager", function () {
           once: function () {}
         }
       },
-      '../config': {
-        db: {
-          name: "db",
-          server: "ip",
-          port: 5,
-          credentials: {
-            username: "bob",
-            password: "notSecure"
-          }
-        }
-      }
     };
     DB = proxy("../src/dbManager", mock);
     db = new DB();
   });
 
-  after(function() {
+  after(function () {
     log.getTraceLogger.restore();
   });
 
-  it("connects to the correct url", function () {
-    expect(db.connectionUrl).to.equal('mongodb://bob:notSecure@ip:5/db');
+  describe("object validation", function () {
+    before(function () {
+      var configMock = {
+        mongoose: mock.mongoose,
+        '../config': {
+          db: {
+            name: "db",
+            server: "ip",
+            port: 5,
+            credentials: {
+              username: "bob",
+              password: "notSecure"
+            }
+          }
+        }
+      };
+      DB = proxy("../src/dbManager", configMock);
+      db = new DB();
+    });
+
+    it("connects to the correct url", function () {
+      expect(db.connectionUrl).to.equal('mongodb://bob:notSecure@ip:5/db');
+    });
   });
 
   describe("db functions", function () {
     var Model;
     beforeEach(function () {
       Model = {
-        find: function () {},
-        save: function () {},
-        remove: function () {}
+        find: function (cllbk) {
+
+        },
+        save: function (cllbk) {
+
+        },
+        remove: function (cllbk) {
+
+        }
       };
     });
 

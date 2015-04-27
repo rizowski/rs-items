@@ -1,6 +1,9 @@
 'use-strict';
 var parser = require('./parser'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  log = require('./log-manager'),
+  trace = log.getTraceLogger("DbManager"),
+  error = log.getErrorLogger("DbManager");
 
 var itemObj = {};
 
@@ -45,8 +48,7 @@ itemObj.getSchema = function () {
 };
 
 itemObj.parseItem = function (item) {
-  var prices = item.prices,
-    rsItem = !!prices;
+  var rsItem = !!item.current;
   return {
     id: item.id,
     name: item.name,
@@ -58,21 +60,21 @@ itemObj.parseItem = function (item) {
     buyLimit: item.buyLimit || 0,
 
     today: {
-      trend: rsItem ? prices.today.trend : item.today.trend,
-      amountChanged: rsItem ? parser.removeSymbols(prices.today.price) : item.today.amountChanged,
-      price: rsItem ? parser.removeSymbols(prices.current.price) : item.today.price
+      trend: item.today.trend,
+      amountChanged: rsItem ? item.today.price : item.today.amountChanged,
+      price: rsItem ? item.current.price : item.today.price
     },
     days30: {
-      trend: rsItem ? prices.days30.trend : item.days30.trend,
-      amountChanged: rsItem ? parser.removeSymbols(prices.days30.change) : item.days30.amountChanged
+      trend: rsItem ? item.day30.trend : item.days30.trend,
+      amountChanged: rsItem ? parser.removeSymbols(item.day30.change) : item.days30.amountChanged
     },
     days90: {
-      trend: rsItem ? prices.days90.trend : item.days90.trend,
-      amountChanged: rsItem ? parser.removeSymbols(prices.days90.change) : item.days90.amountChanged
+      trend: rsItem ? item.day90.trend : item.days90.trend,
+      amountChanged: rsItem ? parser.removeSymbols(item.day90.change) : item.days90.amountChanged
     },
     days180: {
-      trend: rsItem ? prices.days180.trend : item.days180.trend,
-      amountChanged: rsItem ? parser.removeSymbols(prices.days180.change) : item.days180.amountChanged
+      trend: rsItem ? item.day180.trend : item.days180.trend,
+      amountChanged: rsItem ? parser.removeSymbols(item.day180.change) : item.days180.amountChanged
     },
 
     history: !!item.history ? item.history : []
@@ -81,6 +83,9 @@ itemObj.parseItem = function (item) {
 
 itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
+  itemSchema.post('save', function (doc) {
+    trace.info(doc.id, doc.name, "Saved to db");
+  });
   return mongoose.model('Item', itemSchema);
 }();
 

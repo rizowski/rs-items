@@ -1,5 +1,8 @@
 'use-strict';
-var parser = {};
+var parser = {},
+  logger = require('./log-manager'),
+  trace = logger.getTraceLogger('parser'),
+  error = logger.getErrorLogger('parser');
 
 /**
  * Removes + and % symbols from a string
@@ -7,7 +10,10 @@ var parser = {};
  * @return {number}
  */
 parser.removeSymbols = function (payload) {
-  if (typeof payload !== "string") throw new TypeError("Argument is not a string");
+  if (typeof payload !== "string") {
+    trace.debug("removeSymbols", payload, "is not a string")
+    throw new TypeError("Argument is not a string");
+  }
   if (payload.contains("+")) {
     payload = parser.replace(payload, "+", "");
   }
@@ -27,7 +33,10 @@ parser.removeSymbols = function (payload) {
  * @return {string} returns the new string with replaced values
  */
 parser.replace = function (payload, symbol, replace) {
-  if (typeof payload !== "string") throw new TypeError("First argument is not a string");
+  if (typeof payload !== "string") {
+    trace.debug("replace", payload, "is not a string");
+    throw new TypeError("First argument is not a string")
+  };
   return payload.replace(symbol, replace);
 };
 

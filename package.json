@@ -14,6 +14,7 @@
   },
   "bugs": "https://github.com/rizowski/rs-items/labels/bug",
   "scripts": {
+    "start": "node index.js | bunyan",
     "test": "mocha --watch --bail --colors --reporter spec ./spec",
     "ci": "istanbul cover --report text -x \"**/spec/**\" _mocha spec -- -u exports -R spec",
     "coverage": "istanbul cover --report text -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec -- -u exports -R spec"

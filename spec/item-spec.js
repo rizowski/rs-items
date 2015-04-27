@@ -19,7 +19,7 @@ describe("item", function () {
       },
       'mongoose': {
         Schema: function (obj) {
-          return obj;
+          return obj
         },
         model: function () {
           return {};
@@ -107,27 +107,25 @@ describe("item", function () {
           icon: "icon",
           type: "death",
           members: true,
-          prices: {
-            current: {
-              price: 5,
-              trend: trends.neutral
-            },
-            today: {
-              price: 6,
-              trend: trends.neutral
-            },
-            days30: {
-              change: 7,
-              trend: trends.neutral
-            },
-            days90: {
-              change: 8,
-              trend: trends.neutral
-            },
-            days180: {
-              change: 9,
-              trend: trends.neutral
-            }
+          current: {
+            price: 5,
+            trend: trends.neutral
+          },
+          today: {
+            price: 6,
+            trend: trends.neutral
+          },
+          days30: {
+            change: 7,
+            trend: trends.neutral
+          },
+          days90: {
+            change: 8,
+            trend: trends.neutral
+          },
+          days180: {
+            change: 9,
+            trend: trends.neutral
           }
         };
         var newItem = item.parseItem(rsApiObj);
