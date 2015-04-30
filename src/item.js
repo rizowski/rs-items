@@ -85,7 +85,7 @@ itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
   setEventHooks(itemSchema);
   return mongoose.model('Item', itemSchema);
-}();
+} ();
 
 itemObj.createItem = function (item) {
   var parsedItem = itemObj.parseItem(item);
@@ -94,17 +94,21 @@ itemObj.createItem = function (item) {
 };
 
 //Private
-function setEventHooks(schema){
+function setEventHooks(schema) {
   schema.post('update', function () {
     trace.info("Item updated to db");
   });
-  
-  schema.post('save', function(doc){
+
+  schema.post('save', function (doc) {
     trace.info(doc.id, doc.name, 'Saved to the db');
   });
-  
-  schema.post('remove', function(doc){
+
+  schema.post('remove', function (doc) {
     trace.info(doc.id, 'Removed from the db');
+  });
+
+  schema.post('validate', function (doc) {
+    console.log('%s has been validated (but not saved yet)', doc._id);
   });
 }
 
