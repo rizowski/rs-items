@@ -25,7 +25,7 @@ When the pull request build passes the pull request will be valid to be pulled i
 In order for devwork to be accepted a tool must be used to format your javascript files. You can use one of the many tools below. What is reccomended is Visual Studio Code since it is easy to debug with and has built in code formatting.
   - [Visual Studio Code](https://code.visualstudio.com/Download)
     - Config is already setup
-    - `CTRL + SHIFT + T` will run tests in watch mode.
+    - CTRL + SHIFT + T will run tests in watch mode.
   - [Brackets](http://brackets.io/)
     - Code folding
     - Indent Guides
