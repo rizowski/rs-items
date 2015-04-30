@@ -7,7 +7,10 @@
   "showOutput": "always",
   "tasks":[
     {
-      "taskName":"test",
+      "taskName":"ci",
+      "args": [
+        "run-script"
+      ],
       "isTestCommand": true,
       "showOutput": "always"
     }
