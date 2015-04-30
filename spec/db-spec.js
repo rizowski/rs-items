@@ -5,7 +5,7 @@ var proxy = require('proxyquire'),
   expect = chai.expect,
   sinon = require('sinon'),
   sinonChai = require('sinon-chai'),
-  log = require('../src/log-manager');
+  log = require('../src/log-manager')('dbSpec');
 
 chai.use(sinonChai);
 
@@ -15,9 +15,8 @@ describe("DB Manager", function () {
     loggerStub;
 
   before(function () {
-    loggerStub = sinon.stub(log, 'getTraceLogger');
-    loggerStub.returns({
-      info: function () {}
+    loggerStub = sinon.stub(log, "info", function(){
+      
     });
 
     mock = {
@@ -36,7 +35,7 @@ describe("DB Manager", function () {
   });
 
   after(function () {
-    log.getTraceLogger.restore();
+    loggerStub.restore();
   });
 
   describe("object validation", function () {

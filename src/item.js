@@ -1,12 +1,15 @@
 'use-strict';
 var parser = require('./parser'),
   mongoose = require('mongoose'),
-  log = require('./log-manager'),
-  trace = log.getTraceLogger("item"),
-  error = log.getErrorLogger("item");
+  log = require('./log-manager')('item');
 
 var itemObj = {};
 
+/**
+ * Gets the Item Schema for mongoose
+ * 
+ * @returns {Schema} ItemSchema
+ */
 itemObj.getSchema = function () {
   return mongoose.Schema({
     id: Number,
@@ -47,6 +50,12 @@ itemObj.getSchema = function () {
   });
 };
 
+/**
+ * Parses either a RS API Item or a local DB Item
+ * 
+ * @param {Object} item
+ * @returns {Object} parsedItem
+ */
 itemObj.parseItem = function (item) {
   var isRsItem = !!item.current;
   return {
@@ -81,34 +90,45 @@ itemObj.parseItem = function (item) {
   };
 };
 
+/**
+ * Returns the Mongoose Model object for Item
+ * 
+ * @returns {Object} Mongoose Model Object
+ */
 itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
   setEventHooks(itemSchema);
   return mongoose.model('Item', itemSchema);
 }();
 
+/**
+ * Creates an item object
+ * 
+ * @param {string} item - Rs API Object or Db Item
+ * @returns {Object} Mongoose Item object
+ */
 itemObj.createItem = function (item) {
   var parsedItem = itemObj.parseItem(item);
   var newItem = new itemObj.model(parsedItem);
-  return newItem;
+  return newItem.toObject();
 };
 
 //Private
 function setEventHooks(schema) {
   schema.post('update', function () {
-    trace.info("Item updated to db");
+    log.info("Item updated to db");
   });
 
   schema.post('save', function (doc) {
-    trace.info(doc.id, doc.name, 'Saved to the db');
+    log.info(doc.id, doc.name, 'Saved to the db');
   });
 
   schema.post('remove', function (doc) {
-    trace.info(doc.id, 'Removed from the db');
+    log.info(doc.id, 'Removed from the db');
   });
 
   schema.post('validate', function (doc) {
-    console.log('%s has been validated (but not saved yet)', doc._id);
+    log.info(doc._id,"has been validated (but not saved yet)");
   });
 }
 

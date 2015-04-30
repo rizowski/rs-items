@@ -26,6 +26,23 @@ If you are working on a particular issue on the repo please tag it with `#number
 
 When the pull request build passes the pull request will be valid to be pulled in. Tests will be required to be written for new code and enhancements when needed.
 
+### Documenting Code
+Please refer to this site for code documentation: [usejsdoc.org](http://usejsdoc.org/)
+
+Format should follow:
+```javascript
+/**
+ * A brief description for the function and what it does
+ * 
+ * @param {Type} varName - description on variable
+ * ...
+ * @returns {Type} a description of returned object if needed
+ */
+ function myFunction(){
+   // code
+ }
+```
+
 ## Tools that are used
 In order for devwork to be accepted a tool must be used to format your javascript files. You can use one of the many tools below. What is reccomended is Visual Studio Code since it is easy to debug with and has built in code formatting.
   - [Visual Studio Code](https://code.visualstudio.com/Download)

@@ -9,25 +9,21 @@ var chai = require('chai'),
 chai.use(sinonChai);
 
 describe('Log Manager', function() {
-  var logManager;
+  var log,
+    loggerName = "testLogger";
 
   beforeEach(function() {
-    logManager = require('../src/log-manager');
+    log = require('../src/log-manager')(loggerName);
+  });
+
+  it("creates a folder", function(){
+    
   });
 
   it('gets trace logger with name', function() {
-    var logger = logManager.getTraceLogger('test');
-    expect(logger._level).to.equal(bunyan.INFO);
-    expect(logger.streams).to.have.length(2);
-    expect(logger.streams[0].type).to.equal('rotating-file');
-    expect(logger.fields.name).to.equal('test');
-  });
-
-  it('gets error logger with name', function() {
-    var logger = logManager.getErrorLogger('error-test');
-    expect(logger._level).to.equal(bunyan.ERROR);
-    expect(logger.streams).to.have.length(2);
-    expect(logger.streams[0].type).to.equal('rotating-file');
-    expect(logger.fields.name).to.equal('error-test');
+    expect(log._level).to.equal(bunyan.INFO);
+    expect(log.streams).to.have.length(3);
+    expect(log.streams[0].type).to.equal('rotating-file');
+    expect(log.fields.name).to.equal(loggerName);
   });
 });
