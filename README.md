@@ -22,14 +22,17 @@ If you are working on a particular issue on the repo please tag it with `#number
 When the pull request build passes the pull request will be valid to be pulled in. Tests will be required to be written for new code and enhancements when needed.
 
 ##Tools that are used
- - [Brackets](http://brackets.io/)
-   - Code folding
-   - Indent Guides
-   - Documents-toolbar
-   - icons
-   - line-endings
-   - quickdocs
-   - brackets git
-   - Beautify extension
- - [cmdr](http://gooseberrycreative.com/cmder/) is probably the best terminal I have found for windows.
- - [Atom](http://atom.io/)
+In order for devwork to be accepted a tool must be used to format your javascript files. You can use one of the many tools below. What is reccomended is Visual Studio Code since it is easy to debug with and has built in code formatting.
+  - [Visual Studio Code](https://code.visualstudio.com/Download)
+    - Config is already setup
+  - [Brackets](http://brackets.io/)
+    - Code folding
+    - Indent Guides
+    - Documents-toolbar
+    - icons
+    - line-endings
+    - quickdocs
+    - brackets git
+    - Beautify extension
+  - [cmdr](http://gooseberrycreative.com/cmder/) is probably the best terminal I have found for windows.
+  - [Atom](http://atom.io/)

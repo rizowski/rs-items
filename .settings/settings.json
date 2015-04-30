@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": "2",
+  "editor.renderWhitespace": true,
+  "javascript.suggest.useCodeSnippetsOnMethodSuggest": true,
+  "javascript.validate.lint.unusedVariables": "error"
+}
