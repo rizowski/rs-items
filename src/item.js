@@ -48,7 +48,7 @@ itemObj.getSchema = function () {
 };
 
 itemObj.parseItem = function (item) {
-  var rsItem = !!item.current;
+  var isRsItem = !!item.current;
   return {
     id: item.id,
     name: item.name,
@@ -61,20 +61,20 @@ itemObj.parseItem = function (item) {
 
     today: {
       trend: item.today.trend,
-      amountChanged: rsItem ? item.today.price : item.today.amountChanged,
-      price: rsItem ? item.current.price : item.today.price
+      amountChanged: isRsItem ? item.today.price : item.today.amountChanged,
+      price: isRsItem ? item.current.price : item.today.price
     },
     days30: {
-      trend: rsItem ? item.day30.trend : item.days30.trend,
-      amountChanged: rsItem ? parser.removeSymbols(item.day30.change) : item.days30.amountChanged
+      trend: isRsItem ? item.day30.trend : item.days30.trend,
+      amountChanged: isRsItem ? parser.removeSymbols(item.day30.change) : item.days30.amountChanged
     },
     days90: {
-      trend: rsItem ? item.day90.trend : item.days90.trend,
-      amountChanged: rsItem ? parser.removeSymbols(item.day90.change) : item.days90.amountChanged
+      trend: isRsItem ? item.day90.trend : item.days90.trend,
+      amountChanged: isRsItem ? parser.removeSymbols(item.day90.change) : item.days90.amountChanged
     },
     days180: {
-      trend: rsItem ? item.day180.trend : item.days180.trend,
-      amountChanged: rsItem ? parser.removeSymbols(item.day180.change) : item.days180.amountChanged
+      trend: isRsItem ? item.day180.trend : item.days180.trend,
+      amountChanged: isRsItem ? parser.removeSymbols(item.day180.change) : item.days180.amountChanged
     },
 
     history: !!item.history ? item.history : []
@@ -85,7 +85,7 @@ itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
   setEventHooks(itemSchema);
   return mongoose.model('Item', itemSchema);
-} ();
+}();
 
 itemObj.createItem = function (item) {
   var parsedItem = itemObj.parseItem(item);
