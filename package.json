@@ -8,11 +8,15 @@
     "Saikosai",
     "zack37"
   ],
-  "repository": "https://github.com/rizowski/rs-items",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rizowski/rs-items.git"
+  },
   "bugs": "https://github.com/rizowski/rs-items/labels/bug",
   "scripts": {
     "test": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "istanbul cover --report text -x \"**/spec/**\" _mocha spec -- -u exports -R spec"
+    "ci": "istanbul cover --report text -x \"**/spec/**\" _mocha spec -- -u exports -R spec",
+    "coverage": "istanbul cover --report text -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec -- -u exports -R spec"
   },
   "keywords": [
     "runescape"
