@@ -11,8 +11,8 @@ var parser = {},
  */
 parser.removeSymbols = function (payload) {
   if (typeof payload !== "string") {
-    trace.debug("removeSymbols", payload, "is not a string")
-    throw new TypeError("Argument is not a string");
+    trace.warn("removeSymbols", payload, "is not a string");
+    payload = payload.toString();
   }
   if (payload.contains("+")) {
     payload = parser.replace(payload, "+", "");
@@ -34,8 +34,8 @@ parser.removeSymbols = function (payload) {
  */
 parser.replace = function (payload, symbol, replace) {
   if (typeof payload !== "string") {
-    trace.debug("replace", payload, "is not a string");
-    throw new TypeError("First argument is not a string")
+    trace.warn("replace", payload, "is not a string");
+    payload = payload.toString();
   };
   return payload.replace(symbol, replace);
 };
@@ -50,23 +50,23 @@ parser.price = function (payload) {
   var pattern = new RegExp(/\d*\.?,?\d*[kmb]?/),
     dotPattern = new RegExp(/\d*\.?\d*/),
     comPattern = new RegExp(/\d*\,?\d*/),
-    price = new String(pattern.exec(payload)),
+    price = pattern.exec(payload).toString(),
     actual = null;
 
-  if (price.match(",")) {
-    actual = new String(comPattern.exec(price));
-    var array = actual.split(","),
+  if (price.match(',')) {
+    actual = comPattern.exec(price).toString();
+    var array = actual.split(','),
       thousands = array[0],
-      hundreds = array[1] * 1;
+      hundreds = Number(array[1]);
     thousands = thousands * 1000;
     actual = thousands + hundreds;
-  } else if (price.match("k")) {
+  } else if (price.match('k')) {
     actual = dotPattern.exec(price);
     actual = actual * 1000;
-  } else if (price.match("m")) {
+  } else if (price.match('m')) {
     actual = dotPattern.exec(price);
     actual = actual * 1000000;
-  } else if (price.match("b")) {
+  } else if (price.match('b')) {
     actual = dotPattern.exec(price);
     actual = actual * 1000000000;
   } else {

@@ -1,13 +1,11 @@
+/// <reference path="../typings/node/node.d.ts"/>
+/// <reference path="../typings/node/bunyan.d.ts"/>
 'use-strict';
+/* global __dirname */
 var internalLogger = require('bunyan'),
   fs = require('fs'),
   checkLogFolderExists,
   logPath = __dirname + '/../logs';
-
-var consoleConfig = {
-  stream: process.stdout,
-  level: internalLogger.DEBUG
-};
 
 var LogManager = {
   /**
@@ -21,13 +19,17 @@ var LogManager = {
     return internalLogger.createLogger({
       name: loggerName,
       streams: [
-        consoleConfig,
         {
           type: 'rotating-file',
           path: logPath + '/trace.log',
           period: '1d',
+          level: internalLogger.INFO,
           count: 10
-      }]
+        },
+        {
+          stream: process.stdout,
+          level: internalLogger.INFO
+        }]
     });
   },
 
@@ -42,14 +44,17 @@ var LogManager = {
     return internalLogger.createLogger({
       name: loggerName,
       streams: [
-        consoleConfig,
         {
           type: 'rotating-file',
           path: logPath + '/error.log',
           period: '1d',
           level: internalLogger.ERROR,
           count: 10
-      }]
+        },
+        {
+          stream: process.stdout,
+          level: internalLogger.ERROR
+        }]
     });
   }
 };

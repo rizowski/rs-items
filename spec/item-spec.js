@@ -19,7 +19,8 @@ describe("item", function () {
       },
       'mongoose': {
         Schema: function (obj) {
-          return obj
+          obj.post = function () {};
+          return obj;
         },
         model: function () {
           return {};
@@ -30,10 +31,10 @@ describe("item", function () {
   });
   describe("new", function () {
     var trends = {
-        positive: "positive",
-        neutral: "neutral",
-        negative: "negative"
-      },
+      positive: "positive",
+      neutral: "neutral",
+      negative: "negative"
+    },
       comparisonObj;
     beforeEach(function () {
       comparisonObj = {
@@ -115,15 +116,15 @@ describe("item", function () {
             price: 6,
             trend: trends.neutral
           },
-          days30: {
+          day30: {
             change: 7,
             trend: trends.neutral
           },
-          days90: {
+          day90: {
             change: 8,
             trend: trends.neutral
           },
-          days180: {
+          day180: {
             change: 9,
             trend: trends.neutral
           }

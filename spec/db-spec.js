@@ -31,7 +31,7 @@ describe("DB Manager", function () {
         }
       },
     };
-    DB = proxy("../src/dbManager", mock);
+    var DB = proxy("../src/db-manager", mock);
     db = new DB();
   });
 
@@ -55,7 +55,7 @@ describe("DB Manager", function () {
           }
         }
       };
-      DB = proxy("../src/dbManager", configMock);
+      var DB = proxy("../src/db-manager", configMock);
       db = new DB();
     });
 
@@ -65,18 +65,24 @@ describe("DB Manager", function () {
   });
 
   describe("db functions", function () {
-    var Model;
+    var Model, model;
     beforeEach(function () {
+      var returnsModel = function(){
+        return Model;
+      };
       Model = {
-        find: function (cllbk) {
+        where: returnsModel,
+        find: returnsModel,
+        save: returnsModel,
+        update: returnsModel,
+        remove: returnsModel,
+        setOptions: returnsModel
+      };
 
-        },
-        save: function (cllbk) {
-
-        },
-        remove: function (cllbk) {
-
-        }
+      model = {
+        _id: "",
+        name: "modelName",
+        toObject: function(){ return model;}
       };
     });
 
@@ -90,8 +96,8 @@ describe("DB Manager", function () {
 
     describe("save()", function () {
       it("calls Model.save", function () {
-        var spy = sinon.spy(Model, 'save');
-        db.save(Model);
+        var spy = sinon.spy(Model, 'update');
+        db.save(Model, model);
         expect(spy).to.have.been.called;
       });
     });

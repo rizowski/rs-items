@@ -1,5 +1,5 @@
 'use-strict';
-var DB = require('./src/dbManager'),
+var DB = require('./src/db-manager'),
   item = require('./src/item'),
   _ = require('lodash');
 var db = new DB();

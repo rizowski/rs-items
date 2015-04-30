@@ -1,8 +1,9 @@
+/// <reference path="../typings/node/mongoose.d.ts"/>
 'use-strict';
 var mongoose = require('mongoose'),
   _ = require('lodash'),
   settings = require('../config'),
-log = require('./log-manager');
+  log = require('./log-manager');
 
 function RsDb() {
   if (_.isUndefined(settings.db.credentials))
@@ -30,17 +31,14 @@ function RsDb() {
   };
 
   self.save = function (Model, model) {
-    Model.findOneAndUpdate({
-        _id: model._id
-      },
-      model, {
-        upsert: true
-      },
-      function (err, savedModel) {
-        if (err) return error.error(err);
-        model.updatedAt = new Date();
-        model.save();
-      });
+    model = model.toObject();
+    delete model._id;
+    model.updatedAt = new Date();
+    Model.where({ id: model.id })
+      .setOptions({ upsert: true })
+      .update(model, function (err, savedModel) {
+      if (err) return error.error(err);
+    });
   };
 
   self.findAll = function (Model, callback) {

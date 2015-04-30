@@ -2,8 +2,8 @@
 var parser = require('./parser'),
   mongoose = require('mongoose'),
   log = require('./log-manager'),
-  trace = log.getTraceLogger("DbManager"),
-  error = log.getErrorLogger("DbManager");
+  trace = log.getTraceLogger("item"),
+  error = log.getErrorLogger("item");
 
 var itemObj = {};
 
@@ -83,9 +83,7 @@ itemObj.parseItem = function (item) {
 
 itemObj.model = function () {
   var itemSchema = itemObj.getSchema();
-  itemSchema.post('save', function (doc) {
-    trace.info(doc.id, doc.name, "Saved to db");
-  });
+  setEventHooks(itemSchema);
   return mongoose.model('Item', itemSchema);
 }();
 
@@ -93,6 +91,21 @@ itemObj.createItem = function (item) {
   var parsedItem = itemObj.parseItem(item);
   var newItem = new itemObj.model(parsedItem);
   return newItem;
+};
+
+//Private
+function setEventHooks(schema){
+  schema.post('update', function () {
+    trace.info("Item updated to db");
+  });
+  
+  schema.post('save', function(doc){
+    trace.info(doc.id, doc.name, 'Saved to the db');
+  });
+  
+  schema.post('remove', function(doc){
+    trace.info(doc.id, 'Removed from the db');
+  });
 }
 
 module.exports = itemObj;
