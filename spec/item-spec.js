@@ -1,3 +1,5 @@
+'use-strict';
+/* global describe, before, beforeEach, after, afterEach, it*/
 var proxy = require('proxyquire'),
     chai = require('chai'),
     expect = chai.expect,

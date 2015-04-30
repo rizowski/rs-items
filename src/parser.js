@@ -1,3 +1,4 @@
+'use-strict';
 var parser = {};
 
 /**
@@ -12,10 +13,10 @@ parser.removeSymbols = function (payload) {
   }
   if (payload.contains("%")) {
     payload = parser.replace(payload, "%", "");
-    return payload * .01;
+    return payload * 0.01;
   }
   return parser.price(payload);
-}
+};
 
 /**
  * Removes any symbol and replaces it with what ever you want
@@ -60,11 +61,10 @@ parser.price = function (payload) {
     actual = dotPattern.exec(price);
     actual = actual * 1000000000;
   } else {
-    actual = price * 1;
+    actual = Number(price);
   }
   return actual;
 };
-
 
 String.prototype.contains = String.prototype.contains || function (item, caseSensitive) {
   if (caseSensitive)

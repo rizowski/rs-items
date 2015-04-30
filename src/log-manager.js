@@ -1,3 +1,4 @@
+'use-strict';
 var internalLogger = require('bunyan'),
     fs = require('fs'),
     checkLogFolderExists,

@@ -1,6 +1,7 @@
+'use-strict';
 var mongoose = require('mongoose'),
   _ = require('lodash'),
-  settings = require('../config')
+  settings = require('../config'),
   log = require('./log-manager');
 
 function RsDb() {
@@ -30,28 +31,28 @@ function RsDb() {
     model.save(function (err, model) {
       if (err) return log.error(err);
     });
-  }
+  };
 
   self.findAll = function (Model, callback) {
     Model.find(function (err, models) {
       if (err) return log.error(err);
       callback(models);
-    })
-  }
+    });
+  };
 
   self.find = function (findBy, Model, callback) {
     Model.find(findBy, function (err, model) {
       if (err) return log.error(err);
       callback(model);
     });
-  }
+  };
 
   self.remove = function (findBy, Model, callback) {
     Model.remove(findBy, function (err) {
       if (err) return log.error(err);
       callback();
-    })
-  }
+    });
+  };
 
 
   setup();
