@@ -11,6 +11,15 @@
       "args": [
         "run-script"
       ],
+      "isWatching": true,
+      "showOutput": "always"
+    },
+    {
+      "taskName":"coverage",
+      "args": [
+        "run-script"
+      ],
+      "isWatching": true,
       "isTestCommand": true,
       "showOutput": "always"
     }
