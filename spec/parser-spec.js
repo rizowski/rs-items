@@ -1,16 +1,16 @@
 'use-strict';
 /* global describe, before, beforeEach, after, afterEach, it*/
 var parser = require('../src/parser'),
-    chai = require('chai'),
-    expect = chai.expect,
-    sinon = require('sinon'),
-    sinonChai = require('sinon-chai');
+  chai = require('chai'),
+  expect = chai.expect,
+  sinon = require('sinon'),
+  sinonChai = require('sinon-chai');
 
 describe("parser", function () {
   describe("removeSymbols()", function () {
     var spy = {};
 
-    before(function() {
+    before(function () {
       spy = sinon.spy(parser, "price");
     });
 

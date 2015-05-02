@@ -4,7 +4,7 @@ var parser = {},
 
 /**
  * Removes + and % symbols from a string
- * 
+ *
  * @param {string} payload
  * @returns {Number}
  */
@@ -31,6 +31,7 @@ parser.removeSymbols = function (payload) {
  * @param {string} replace
  * @returns {string} returns the new string with replaced values
  */
+
 parser.replace = function (payload, symbol, replace) {
   if (typeof payload !== "string") {
     logger.warn("replace", payload, "is not a string");

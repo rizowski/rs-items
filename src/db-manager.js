@@ -6,16 +6,16 @@ var mongoose = require('mongoose'),
   log = require('./log-manager')('dbManager');
 
 function RsDb() {
-  if (!settings.db.server){
+  if (!settings.db.server) {
     throw new Error("Db server is not specified in config.");
   }
-  if (!settings.db.port){
+  if (!settings.db.port) {
     throw new Error("Db server is not specified in config.");
   }
-  if(!settings.db.credentials.username){
+  if (!settings.db.credentials.username) {
     throw new Error("username is not specified in config.");
   }
-  if(!settings.db.credentials.password){
+  if (!settings.db.credentials.password) {
     throw new Error("password is not specified in config.");
   }
 
@@ -43,11 +43,15 @@ function RsDb() {
   function save(Model, model) {
     delete model._id;
     model.updatedAt = new Date();
-    Model.where({ id: model.id })
-      .setOptions({ upsert: true })
+    Model.where({
+        id: model.id
+      })
+      .setOptions({
+        upsert: true
+      })
       .update(model, function (err, savedModel) {
-      if (err) return log.error(err);
-    });
+        if (err) return log.error(err);
+      });
   }
 
   self.save = save;
@@ -65,7 +69,7 @@ function RsDb() {
       callback(models);
     });
   }
-   
+
   self.findAll = findAll;
 
   /**

@@ -7,10 +7,10 @@ var itemObj = {};
 
 /**
  * Gets the Item Schema for mongoose
- * 
- * @returns {Schema} ItemSchema
+ *
+ * @returns ItemSchema
  */
-itemObj.getSchema = function () {
+function getSchema() {
   return mongoose.Schema({
     id: Number,
     createdAt: {
@@ -48,15 +48,17 @@ itemObj.getSchema = function () {
 
     history: Array
   });
-};
+}
+
+itemObj.getSchema = getSchema;
 
 /**
  * Parses either a RS API Item or a local DB Item
- * 
+ *
  * @param {Object} item
  * @returns {Object} parsedItem
  */
-itemObj.parseItem = function (item) {
+function parse(item) {
   var isRsItem = !!item.current;
   return {
     id: item.id,
@@ -88,30 +90,36 @@ itemObj.parseItem = function (item) {
 
     history: !!item.history ? item.history : []
   };
-};
+}
+
+itemObj.parseItem = parse;
 
 /**
  * Returns the Mongoose Model object for Item
- * 
+ *
  * @returns {Object} Mongoose Model Object
  */
-itemObj.model = function () {
+function model() {
   var itemSchema = itemObj.getSchema();
   setEventHooks(itemSchema);
   return mongoose.model('Item', itemSchema);
-}();
+}
+
+itemObj.model = model();
 
 /**
  * Creates an item object
- * 
+ *
  * @param {string} item - Rs API Object or Db Item
  * @returns {Object} Mongoose Item object
  */
-itemObj.createItem = function (item) {
+function create(item) {
   var parsedItem = itemObj.parseItem(item);
   var newItem = new itemObj.model(parsedItem);
   return newItem.toObject();
-};
+}
+
+itemObj.createItem = create;
 
 //Private
 function setEventHooks(schema) {
@@ -128,7 +136,7 @@ function setEventHooks(schema) {
   });
 
   schema.post('validate', function (doc) {
-    log.info(doc._id,"has been validated (but not saved yet)");
+    log.info(doc._id, "has been validated (but not saved yet)");
   });
 }
 

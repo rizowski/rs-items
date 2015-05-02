@@ -15,7 +15,7 @@ describe("DB Manager", function () {
     loggerStub;
 
   before(function () {
-    loggerStub = sinon.stub(log, "info", function () { });
+    loggerStub = sinon.stub(log, "info", function () {});
 
     mock = {
       'mongoose': {
@@ -23,8 +23,8 @@ describe("DB Manager", function () {
           return url;
         },
         connection: {
-          on: function () { },
-          once: function () { }
+          on: function () {},
+          once: function () {}
         }
       },
       '../config': {
@@ -71,7 +71,9 @@ describe("DB Manager", function () {
       model = {
         _id: "",
         name: "modelName",
-        toObject: function () { return model; }
+        toObject: function () {
+          return model;
+        }
       };
     });
 
