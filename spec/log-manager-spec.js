@@ -16,10 +16,6 @@ describe('Log Manager', function() {
     log = require('../src/log-manager')(loggerName);
   });
 
-  it("creates a folder", function(){
-    
-  });
-
   it('gets trace logger with name', function() {
     expect(log._level).to.equal(bunyan.INFO);
     expect(log.streams).to.have.length(3);
