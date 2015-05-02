@@ -1,7 +1,7 @@
 /// <reference path="../typings/node/node.d.ts"/>
 /// <reference path="../typings/node/bunyan.d.ts"/>
 'use-strict';
-/* global __dirname */
+
 var internalLogger = require('bunyan'),
   fs = require('fs'),
   checkLogFolderExists,
@@ -14,12 +14,13 @@ checkLogFolderExists = function () {
     //console.log('Folder', logPath, "already exists.");
   }
 };
+
 /**
   * Creates a logger with two rotating files for logging. Error and trace.
   * @param {String} name - The name of the logger, usually the name of the class performing the logging
   * @returns {Logger}: A bunyan logger for logging errors on a rotating file
 */
-module.exports = function (loggerName) {
+function createLogger(loggerName) {
   checkLogFolderExists();
 
   return internalLogger.createLogger({
@@ -42,4 +43,6 @@ module.exports = function (loggerName) {
         stream: process.stdout
       }]
   });
-};
+}
+
+module.exports = createLogger;

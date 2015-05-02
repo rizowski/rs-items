@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
   log = require('./log-manager')('dbManager');
 
 function RsDb() {
-  if (_.isUndefined(settings.db.credentials))
-    throw new TypeError("Username and password are not provided in the config {username: , password}");
+  if (!settings.db.server)
+    throw new Error("Db server is not specified in config.");
 
   var self = this,
     db = mongoose.connection,

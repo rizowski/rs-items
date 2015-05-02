@@ -15,9 +15,7 @@ describe("DB Manager", function () {
     loggerStub;
 
   before(function () {
-    loggerStub = sinon.stub(log, "info", function(){
-      
-    });
+    loggerStub = sinon.stub(log, "info", function () { });
 
     mock = {
       'mongoose': {
@@ -25,10 +23,21 @@ describe("DB Manager", function () {
           return url;
         },
         connection: {
-          on: function () {},
-          once: function () {}
+          on: function () { },
+          once: function () { }
         }
       },
+      '../config': {
+        db: {
+          name: "db",
+          server: "ip",
+          port: 5,
+          credentials: {
+            username: "bob",
+            password: "notSecure"
+          }
+        }
+      }
     };
     var DB = proxy("../src/db-manager", mock);
     db = new DB();
@@ -39,25 +48,6 @@ describe("DB Manager", function () {
   });
 
   describe("object validation", function () {
-    before(function () {
-      var configMock = {
-        mongoose: mock.mongoose,
-        '../config': {
-          db: {
-            name: "db",
-            server: "ip",
-            port: 5,
-            credentials: {
-              username: "bob",
-              password: "notSecure"
-            }
-          }
-        }
-      };
-      var DB = proxy("../src/db-manager", configMock);
-      db = new DB();
-    });
-
     it("connects to the correct url", function () {
       expect(db.connectionUrl).to.equal('mongodb://bob:notSecure@ip:5/db');
     });
@@ -66,7 +56,7 @@ describe("DB Manager", function () {
   describe("db functions", function () {
     var Model, model;
     beforeEach(function () {
-      var returnsModel = function(){
+      var returnsModel = function () {
         return Model;
       };
       Model = {
@@ -81,7 +71,7 @@ describe("DB Manager", function () {
       model = {
         _id: "",
         name: "modelName",
-        toObject: function(){ return model;}
+        toObject: function () { return model; }
       };
     });
 
