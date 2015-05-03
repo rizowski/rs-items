@@ -1,3 +1,5 @@
+'use-strict';
+/* global describe, before, beforeEach, after, afterEach, it*/
 var parser = require('../src/parser'),
     chai = require('chai'),
     expect = chai.expect,
@@ -23,23 +25,17 @@ describe("parser", function () {
     });
 
     it("calls price", function () {
-      // var spy = sinon.spy(parser, "price");
       parser.removeSymbols("+5");
       expect(spy).to.have.been.called;
     });
 
     it("parses % and returns without calling price", function () {
-      // var spy = sinon.spy(parser, "price");
       parser.removeSymbols("5%");
       expect(spy).to.have.been.called;
     });
   });
 
   describe("replace()", function () {
-    it("throws if first argument is not a string", function () {
-      expect(parser.replace).to.throw(TypeError, "First argument is not a string");
-    });
-
     it("removes +", function () {
       var result = parser.replace("+4", "+", "");
       expect(result).to.equal("4");
