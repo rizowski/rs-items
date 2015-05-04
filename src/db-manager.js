@@ -41,6 +41,7 @@ function RsDb() {
    * @param {Object} model - Instantiated model document
    */
   function save(Model, model) {
+    if(!model) return;
     delete model._id;
     model.updatedAt = new Date();
     Model.where({
