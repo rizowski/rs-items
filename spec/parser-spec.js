@@ -1,5 +1,5 @@
+/// <reference path="../typings/mocha/mocha.d.ts"/>
 'use-strict';
-/* global describe, before, beforeEach, after, afterEach, it*/
 var parser = require('../src/parser'),
     chai = require('chai'),
     expect = chai.expect,
