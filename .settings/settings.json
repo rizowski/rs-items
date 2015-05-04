@@ -4,6 +4,7 @@
   "editor.tabSize": "2",
   "editor.renderWhitespace": true,
   "javascript.validate.lint.unusedVariables": "error",
+  "javascript.validate.lint.undeclaredVariables": "error",
   "javascript.validate.lint.comparisonOperatorsNotStrict": "error",
   "javascript.validate.lint.missingSemicolon": "error"
 }
