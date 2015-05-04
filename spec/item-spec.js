@@ -31,10 +31,10 @@ describe("item", function () {
   });
   describe("new", function () {
     var trends = {
-      positive: "positive",
-      neutral: "neutral",
-      negative: "negative"
-    },
+        positive: "positive",
+        neutral: "neutral",
+        negative: "negative"
+      },
       comparisonObj;
     beforeEach(function () {
       comparisonObj = {

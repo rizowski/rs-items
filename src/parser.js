@@ -1,17 +1,16 @@
 'use-strict';
 var parser = {},
-  logger = require('./log-manager'),
-  trace = logger.getTraceLogger('parser'),
-  error = logger.getErrorLogger('parser');
+  logger = require('./log-manager')('parser');
 
 /**
  * Removes + and % symbols from a string
+ *
  * @param {string} payload
- * @return {number}
+ * @returns {Number}
  */
 parser.removeSymbols = function (payload) {
   if (typeof payload !== "string") {
-    trace.warn("removeSymbols", payload, "is not a string");
+    logger.warn("removeSymbols", payload, "is not a string");
     payload = payload.toString();
   }
   if (payload.contains("+")) {
@@ -30,11 +29,12 @@ parser.removeSymbols = function (payload) {
  * @param {string} payload
  * @param {string} symbol
  * @param {string} replace
- * @return {string} returns the new string with replaced values
+ * @returns {string} returns the new string with replaced values
  */
+
 parser.replace = function (payload, symbol, replace) {
   if (typeof payload !== "string") {
-    trace.warn("replace", payload, "is not a string");
+    logger.warn("replace", payload, "is not a string");
     payload = payload.toString();
   };
   return payload.replace(symbol, replace);
@@ -43,8 +43,9 @@ parser.replace = function (payload, symbol, replace) {
 /**
  * Takes in a price and adds extra zeros or turns the string into a number
  * Input that it can parse: $305 $5,000 2.5k 3.2m 1.3b
+ * 
  * @param {string} payload
- * @return {number} Returns the formatted number
+ * @returns {Number} Returns the formatted number
  */
 parser.price = function (payload) {
   var pattern = new RegExp(/\d*\.?,?\d*[kmb]?/),

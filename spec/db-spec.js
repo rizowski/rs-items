@@ -5,7 +5,7 @@ var proxy = require('proxyquire'),
   expect = chai.expect,
   sinon = require('sinon'),
   sinonChai = require('sinon-chai'),
-  log = require('../src/log-manager');
+  log = require('../src/log-manager')('dbSpec');
 
 chai.use(sinonChai);
 
@@ -15,10 +15,7 @@ describe("DB Manager", function () {
     loggerStub;
 
   before(function () {
-    loggerStub = sinon.stub(log, 'getTraceLogger');
-    loggerStub.returns({
-      info: function () {}
-    });
+    loggerStub = sinon.stub(log, "info", function () {});
 
     mock = {
       'mongoose': {
@@ -30,35 +27,27 @@ describe("DB Manager", function () {
           once: function () {}
         }
       },
+      '../config': {
+        db: {
+          name: "db",
+          server: "ip",
+          port: 5,
+          credentials: {
+            username: "bob",
+            password: "notSecure"
+          }
+        }
+      }
     };
     var DB = proxy("../src/db-manager", mock);
     db = new DB();
   });
 
   after(function () {
-    log.getTraceLogger.restore();
+    loggerStub.restore();
   });
 
   describe("object validation", function () {
-    before(function () {
-      var configMock = {
-        mongoose: mock.mongoose,
-        '../config': {
-          db: {
-            name: "db",
-            server: "ip",
-            port: 5,
-            credentials: {
-              username: "bob",
-              password: "notSecure"
-            }
-          }
-        }
-      };
-      var DB = proxy("../src/db-manager", configMock);
-      db = new DB();
-    });
-
     it("connects to the correct url", function () {
       expect(db.connectionUrl).to.equal('mongodb://bob:notSecure@ip:5/db');
     });
@@ -67,7 +56,7 @@ describe("DB Manager", function () {
   describe("db functions", function () {
     var Model, model;
     beforeEach(function () {
-      var returnsModel = function(){
+      var returnsModel = function () {
         return Model;
       };
       Model = {
@@ -82,7 +71,9 @@ describe("DB Manager", function () {
       model = {
         _id: "",
         name: "modelName",
-        toObject: function(){ return model;}
+        toObject: function () {
+          return model;
+        }
       };
     });
 
