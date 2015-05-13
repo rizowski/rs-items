@@ -59,7 +59,10 @@ itemObj.getSchema = getSchema;
  * @returns {Object} parsedItem
  */
 function parse(item) {
-  var isRsItem = !!item.current;
+  if(!item) return;
+  var isRsItem = !!item.item;
+  item = isRsItem ? item.item : item;
+  log.info("Parsing item", item.id);
   return {
     id: item.id,
     name: item.name,
@@ -72,8 +75,8 @@ function parse(item) {
 
     today: {
       trend: item.today.trend,
-      amountChanged: isRsItem ? item.today.price : item.today.amountChanged,
-      price: isRsItem ? item.current.price : item.today.price
+      amountChanged: isRsItem ? parser.removeSymbols(item.today.price) : item.today.amountChanged,
+      price: isRsItem ? parser.removeSymbols(item.current.price) : item.today.price
     },
     days30: {
       trend: isRsItem ? item.day30.trend : item.days30.trend,
@@ -92,7 +95,7 @@ function parse(item) {
   };
 }
 
-itemObj.parseItem = parse;
+itemObj.parse = parse;
 
 /**
  * Returns the Mongoose Model object for Item
@@ -123,8 +126,8 @@ itemObj.createItem = create;
 
 //Private
 function setEventHooks(schema) {
-  schema.post('update', function () {
-    log.info("Item updated to db");
+  schema.post('update', function (doc) {
+    log.info(doc.id, "Updated to db");
   });
 
   schema.post('save', function (doc) {

@@ -10,7 +10,6 @@ var parser = {},
  */
 parser.removeSymbols = function (payload) {
   if (typeof payload !== "string") {
-    logger.warn("removeSymbols", payload, "is not a string");
     payload = payload.toString();
   }
   if (payload.contains("+")) {
@@ -34,7 +33,6 @@ parser.removeSymbols = function (payload) {
 
 parser.replace = function (payload, symbol, replace) {
   if (typeof payload !== "string") {
-    logger.warn("replace", payload, "is not a string");
     payload = payload.toString();
   };
   return payload.replace(symbol, replace);
