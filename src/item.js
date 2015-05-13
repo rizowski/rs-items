@@ -62,7 +62,7 @@ function parse(item) {
   if(!item) return;
   var isRsItem = !!item.item;
   item = isRsItem ? item.item : item;
-  log.info("parsing item", item.id);
+  log.info("Parsing item", item.id);
   return {
     id: item.id,
     name: item.name,

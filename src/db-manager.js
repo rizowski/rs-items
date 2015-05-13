@@ -28,7 +28,9 @@ function RsDb() {
 
     mongoose.connect(self.connectionUrl);
 
-    db.on("error", console.error.bind(console, 'connection error:'));
+    db.on("error", function(){
+      log.error("DB Connection Error");
+    });
     db.once("open", function (next) {
       log.info("Connected to", settings.db.server, settings.db.port);
     });

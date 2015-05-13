@@ -25,6 +25,9 @@ describe("item", function () {
         model: function () {
           return {};
         }
+      },
+      './log-manager':function(){
+        return {info: function(){} };
       }
     };
     item = proxy("../src/item", mock);
@@ -66,7 +69,7 @@ describe("item", function () {
       };
     });
 
-    describe("parseItem()", function () {
+    describe("parse()", function () {
       it("sets properties for a db item", function () {
         var dbItem = {
           id: 1,
@@ -95,13 +98,13 @@ describe("item", function () {
           history: ["hello"]
         };
         comparisonObj.history = ["hello"];
-        var newItem = item.parseItem(dbItem);
+        var newItem = item.parse(dbItem);
 
         expect(newItem).to.deep.equal(comparisonObj);
       });
 
       it("sets properties for an rs item", function () {
-        var rsApiObj = {
+        var rsApiObj = {"item":{
           id: 1,
           name: "name",
           description: "something",
@@ -128,8 +131,8 @@ describe("item", function () {
             change: 9,
             trend: trends.neutral
           }
-        };
-        var newItem = item.parseItem(rsApiObj);
+        }};
+        var newItem = item.parse(rsApiObj);
 
         expect(newItem).to.deep.equal(comparisonObj);
       });
