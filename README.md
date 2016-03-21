@@ -7,14 +7,8 @@ This project gives the option to track runescape items using your own database. 
 ## How to run
 1. `git clone`
 2. cd into project folder
-3. `npm install -g mocha istanbul`
 4. `npm install`
 5. `npm test` (all tests should pass)
-
-## Commands
-  - `npm test` - Runs tests in watch mode.
-  - `npm run ci` - (Linux) - Runs one time tests with coverage output.
-  - `npm run coverage` - (Windows) - Runs one time tests with coverage output.
 
 ## Helping out
 If you are working on a particular issue on the repo please tag it with `#number`. This will help us keep track with what is being worked on.
