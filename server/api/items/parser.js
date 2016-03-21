@@ -1,14 +1,7 @@
-// import createLogger from '../../logger';
-import _ from 'lodash';
+import createLogger from '../../logger';
 
-// let logger = createLogger('parser');
+let logger = createLogger('parser');
 const parser = {};
-let logger = {
-  warn: () =>{},
-  log: () =>{},
-  info: () =>{},
-  error: () =>{}
-};
 
 /**
  * Removes + and % symbols from a string

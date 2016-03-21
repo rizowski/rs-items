@@ -9,7 +9,7 @@ function getDayPrice(item, days){
   };
 }
 
-export default (item) =>{
+export default (item) =>{ // eslint-disable-line
   var isRsItem = !!item.current;
   return {
     id: item.id,
