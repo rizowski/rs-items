@@ -33,7 +33,7 @@ Format should follow:
 ```javascript
 /**
  * A brief description for the function and what it does
- * 
+ *
  * @param {Type} varName - description on variable
  * ...
  * @returns {Type} a description of returned object if needed

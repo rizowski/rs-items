@@ -43,7 +43,7 @@ parser.replace = function (payload, symbol, replace) {
 /**
  * Takes in a price and adds extra zeros or turns the string into a number
  * Input that it can parse: $305 $5,000 2.5k 3.2m 1.3b
- * 
+ *
  * @param {string} payload
  * @returns {Number} Returns the formatted number
  */
