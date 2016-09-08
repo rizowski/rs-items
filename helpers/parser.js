@@ -10,57 +10,65 @@ const valueMap = {
 };
 
 const num = /\d+(\.?\d?\d?)?/;
+const shorts = /[kmbt]/;
 
-function positiveOrNegative(payload){
-  if(/[-|+]/.test(payload)){
-    return /\+/.test(payload) ? 1 : -1
-  }
-  return 1;
+function isPercentage(payload){
+  return /[%]/.test(payload);
 }
 
-function parseLetter(payload){
-  let result = 0;
-  return _.reduce();
-  if(/[k]/.test(payload)){
-    const result = num.exec(payload);
-    let number = Number(result[0]);
-    result = number * valueMap.k;
-  } else if(/[m]/.test(payload)){
-    let number = Number(num.exec(payload)[0]);
-    result = number * valueMap.m;
-  } else if(/[b]/.test(payload)){
-    let number = Number(num.exec(payload)[0]);
-    result = number * valueMap.b;
-  } else if(/[t]/.test(payload)){
-    let number = Number(num.exec(payload)[0]);
-    result = number * valueMap.t;
+function getMultiplier(payload){
+  console.log('#multiplier', payload)
+  let isNegative = /[-]/.test(payload);
+  if(isPercentage(payload)){
+    console.log('percentage');
+    return isNegative ? d('-0.01') : d('0.01');
   }
+  const regexResult = shorts.exec(payload);
+  let wholeVal = isNegative ? d('-1') : d('1');
+  if(regexResult){
+    console.log('found letter');
+    const lookUpVal = regexResult[0];
+    const multiplier = valueMap[lookUpVal];
+    return multiplier ? d.mul(multiplier, wholeVal) : wholeVal;
+  }
+  return wholeVal;
+}
+
+function parsePrice(payload){
+  console.log('#parsePrice', payload);
+  if(typeof payload === 'number'){
+    return payload;
+  }
+  payload = payload.split(' ').join('').split(',').join('');
+  const multiplier = getMultiplier(payload);
+  console.log('multiplier result', multiplier.toNumber());
+  const numberResult = num.exec(payload);
+  if(!numberResult){
+    throw new Error('No price found!!');
+  }
+  console.log('regexResult', numberResult[0]);
+  const number = d(numberResult[0]);
+  let result = number.mul(multiplier).toNumber();
+  console.log('number', number.toNumber(), multiplier.toNumber(), result);
   return result;
-}
-
-function parsePercent(){
-
-}
-
-function parseComma(){
-
 }
 
 const parser = {
   normalizePrice(payload){
-    if(typeof payload === 'number'){
-      return payload;
-    }
-    const multiplier = positiveOrNegative(payload);
-    let result = 0;
-    if(/[kmbt]/.test(payload)){
-      result = parseLetter(payload);
-    } else if(/,/.test(payload)){
-
-    } else if(/%/.test(payload)){
-
-    }
-    return result * multiplier;
+    return parsePrice(payload);
+    // if(typeof payload === 'number'){
+    //   return payload;
+    // }
+    // const multiplier = positiveOrNegative(payload);
+    // let result = 0;
+    // if(/[kmbt]/.test(payload)){
+    //   result = parseLetter(payload);
+    // } else if(/,/.test(payload)){
+    //
+    // } else if(/%/.test(payload)){
+    //
+    // }
+    // return result * multiplier;
   },
   removeSymbols(string) {
     let payload = '';

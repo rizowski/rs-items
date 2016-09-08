@@ -4,10 +4,10 @@ let parser = require('../helpers/parser');
 let expect = require('chai').expect;
 
 describe('parser tests', ()=>{
-  it('handles negative numbers with spaces', () =>{
-    const num = '- 5';
+  it('handles numbers', () =>{
+    const num = 386;
     const result = parser.normalizePrice(num);
-    expect(result).to.equal(-5);
+    expect(result).to.equal(386);
   });
 
   it('handles negative numbers without spaces', () =>{
@@ -16,16 +16,10 @@ describe('parser tests', ()=>{
     expect(result).to.equal(-5);
   });
 
-  it('handles positive numbers with spaces', () =>{
-    const num = '+ 5';
-    const result = parser.normalizePrice(num);
-    expect(result).to.equal(-5);
-  });
-
   it('handles positive numbers without spaces', () =>{
     const num = '+5';
     const result = parser.normalizePrice(num);
-    expect(result).to.equal(-5);
+    expect(result).to.equal(5);
   });
 
   it('handles percentages', () =>{
@@ -46,13 +40,7 @@ describe('parser tests', ()=>{
     expect(result).to.equal(-0.31);
   });
 
-  it('handles percentages with - signs and a space', () =>{
-    const num = '- 44.0%';
-    const result = parser.normalizePrice(num);
-    expect(result).to.equal(0.44);
-  });
-
-  it.only('handles k numbers', () =>{
+  it('handles k numbers', () =>{
     const num = '4k';
     const result = parser.normalizePrice(num);
     expect(result).to.equal(4000);
@@ -70,6 +58,30 @@ describe('parser tests', ()=>{
     expect(result).to.equal(5000000);
   });
 
+  it('handles t numbers', () =>{
+    const num = '6t';
+    const result = parser.normalizePrice(num);
+    expect(result).to.equal(6000000000000);
+  });
+
+  it('handles negative numbers with spaces', () =>{
+    const num = '- 5';
+    const result = parser.normalizePrice(num);
+    expect(result).to.equal(-5);
+  });
+
+  it('handles positive numbers with spaces', () =>{
+    const num = '+ 5';
+    const result = parser.normalizePrice(num);
+    expect(result).to.equal(5);
+  });
+
+  it('handles percentages with - signs and a space', () =>{
+    const num = '- 44.0%';
+    const result = parser.normalizePrice(num);
+    expect(result).to.equal(-0.44);
+  });
+
   it('handes numbers with commas', () =>{
     const num = '4,000';
     const result = parser.normalizePrice(num);
@@ -80,11 +92,5 @@ describe('parser tests', ()=>{
     const num = '4,000k';
     const result = parser.normalizePrice(num);
     expect(result).to.equal(4000);
-  });
-
-  it('handles numbers', () =>{
-    const num = 386;
-    const result = parser.normalizePrice(num);
-    expect(result).to.equal(386);
   });
 })
