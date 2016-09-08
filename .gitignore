@@ -1,6 +1,3 @@
-node_modules/
-*.orig
-npm-debug.log
-coverage/
-logs/
-config.js
+node_modules
+.serverless
+build

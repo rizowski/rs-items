@@ -1,4 +1,4 @@
 {
-  "plugins": ["add-module-exports"],
-  "presets": ["es2015-node4"]
+  "plugins": [],
+  "presets" : ["stage-2"]
 }

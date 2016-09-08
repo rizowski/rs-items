@@ -1,58 +1,33 @@
 {
   "name": "rs-items",
   "version": "0.0.0",
-  "description": "Tracks Runescape Items",
-  "main": "index.js",
-  "contributors": [
-    "rizowski",
-    "Saikosai",
-    "zack37"
-  ],
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "mocha --recursive tests",
+    "clean": "rm -rf node_modules",
+    "predeploy": "npm run clean && npm i --production",
+    "deploy": "serverless deploy",
+    "prepublish": "npm run deploy"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rizowski/rs-items.git"
+    "url": "git+https://github.com/rizowski/rs-items.git"
   },
-  "bugs": "https://github.com/rizowski/rs-items/labels/bug",
-  "scripts": {
-    "lint": "esw --quiet",
-    "start": "node index.js | bunyan",
-    "test": "mocha tests --recursive --compilers js:babel-core/register",
-    "ci": "npm run lint && npm test",
-    "coverage": "istanbul cover --report text -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec -- -u exports -R spec"
-  },
-  "keywords": [
-    "runescape"
-  ],
   "author": "Colten Rouska",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rizowski/rs-items/issues"
+  },
+  "homepage": "https://github.com/rizowski/rs-items#readme",
   "dependencies": {
-    "bluebird": "^3.3.4",
-    "boom": "^3.1.2",
-    "bunyan": "^1.8.0",
-    "good": "^6.6.0",
-    "good-bunyan": "^0.1.2",
-    "hapi": "^13.2.1",
-    "hapi-swaggered": "^2.6.0",
-    "hapi-swaggered-ui": "^2.3.1",
-    "inert": "^3.2.0",
-    "joi": "^8.0.5",
-    "lodash": "^4.6.1",
-    "mongojs": "^2.3.0",
-    "vision": "^4.0.1"
+    "bluebird": "^3.4.6",
+    "decimal": "0.0.2",
+    "lodash": "^4.15.0",
+    "request": "^2.74.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-core": "^6.7.2",
-    "babel-eslint": "^5.0.0",
-    "babel-plugin-add-module-exports": "^0.1.2",
-    "babel-preset-es2015-node4": "^2.0.3",
     "chai": "^3.5.0",
-    "eslint": "^2.4.0",
-    "eslint-watch": "^2.1.10",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
-    "proxyquire": "^1.7.4",
-    "sinon": "^1.17.3",
-    "source-map-support": "^0.4.0"
+    "mocha": "^3.0.2"
   }
 }
