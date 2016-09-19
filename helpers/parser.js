@@ -55,7 +55,6 @@ function interpolate(payload){
   if(hasLetters){
     let result = letters.exec(payload);
     letter = result[0];
-    multiplier = letterMap[letter];
   }
 
   if(isPercentage){
@@ -81,7 +80,7 @@ function interpolate(payload){
     } else if (!hasComma && !hasLetters && !hasDecimal){
       parsed = d(payload).toNumber();
     } else {
-      console.error('edgeCase not found');
+      throw new Error('edgeCase not found');
     }
   }
 
@@ -93,7 +92,6 @@ function interpolate(payload){
     hasComma,
     hasDecimal,
     hasLetters,
-    multiplier,
     hasZeros,
     split
   }
@@ -101,7 +99,9 @@ function interpolate(payload){
 
 const parser = {
   normalizePrice(payload){
-    return interpolate(payload).parsed;
+    const result = interpolate(payload);
+    console.log(result);
+    return result.parsed;
   },
   removeSymbols(string) {
     let payload = '';
