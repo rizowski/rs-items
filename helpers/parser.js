@@ -2,73 +2,106 @@
 const _ = require('lodash');
 const d = require('decimal');
 
-const valueMap = {
-  k: 1000,
-  m: 1000000,
-  b: 1000000000,
-  t: 1000000000000
+const letterMap = {
+  k: d('1000'),
+  m: d('1000000'),
+  b: d('1000000000'),
+  t: d('1000000000000')
 };
 
-const num = /\d+(\.?\d?\d?)?/;
-const shorts = /[kmbt]/;
+const zeroCounts = {
+  k: 3,
+  m: 6,
+  b: 9,
+  t: 12
+};
 
-function isPercentage(payload){
-  return /[%]/.test(payload);
+const num = /\d+([.]?\d?\d?)?/;
+const letters = /[kmbt]/;
+const comma = /[,]/;
+const zero = /[0]/;
+const decimal = /[.]/;
+
+function multiLetter(string){
+  const letter = letters.exec(string)[0];
+  const number = num.exec(string)[0];
+  return letterMap[letter].mul(number).toNumber();
 }
 
-function getMultiplier(payload){
-  console.log('#multiplier', payload)
-  let isNegative = /[-]/.test(payload);
-  if(isPercentage(payload)){
-    console.log('percentage');
-    return isNegative ? d('-0.01') : d('0.01');
-  }
-  const regexResult = shorts.exec(payload);
-  let wholeVal = isNegative ? d('-1') : d('1');
-  if(regexResult){
-    console.log('found letter');
-    const lookUpVal = regexResult[0];
-    const multiplier = valueMap[lookUpVal];
-    return multiplier ? d.mul(multiplier, wholeVal) : wholeVal;
-  }
-  return wholeVal;
-}
-
-function parsePrice(payload){
-  console.log('#parsePrice', payload);
+function interpolate(payload){
   if(typeof payload === 'number'){
-    return payload;
+    return { parsed: payload };
   }
-  payload = payload.split(' ').join('').split(',').join('');
-  const multiplier = getMultiplier(payload);
-  console.log('multiplier result', multiplier.toNumber());
-  const numberResult = num.exec(payload);
-  if(!numberResult){
-    throw new Error('No price found!!');
+  payload = payload.split(' ').join('');
+  const isNegative = /[-]/.test(payload);
+  const hasComma = comma.test(payload);
+  const hasDecimal = decimal.test(payload);
+  const isPercentage = /[%]/.test(payload) && !hasComma;
+  const hasLetters = letters.test(payload);
+  const hasZeros = zero.test(payload);
+  const polarity = isNegative ? d('-1') : d('1');
+
+  let split = [];
+  let multiplier = 1;
+  let letter;
+  let parsed = null;
+
+  if(hasComma && !hasDecimal){
+    split = payload.split(',');
+  } else if(!hasComma && hasDecimal){
+    split = payload.split('.');
   }
-  console.log('regexResult', numberResult[0]);
-  const number = d(numberResult[0]);
-  let result = number.mul(multiplier).toNumber();
-  console.log('number', number.toNumber(), multiplier.toNumber(), result);
-  return result;
+
+  if(hasLetters){
+    let result = letters.exec(payload);
+    letter = result[0];
+    multiplier = letterMap[letter];
+  }
+
+  if(isPercentage){
+    const percent = d('0.01');
+    let result = num.exec(payload);
+    let percentage = d(result[0]);
+    parsed = percentage.mul(percent).mul(polarity).toNumber();
+  } else {
+    if(hasComma && hasLetters && !hasDecimal){
+      // is thousands 33,000k
+      let thousands = d(split[0]).mul(1000);
+      let numberWOLetters = _.without(split[1].split(''), 'k', 'm', 'b', 't').join('');
+      let hundreds = d(numberWOLetters);
+      parsed = thousands.add(hundreds).toNumber();
+    } else if(hasComma && !hasLetters && !hasDecimal){
+      // 4,000
+      let thousands = d(split[0]).mul(1000);
+      let hundreds = d(split[1]);
+      parsed = thousands.add(hundreds).toNumber();
+    } else if(!hasComma && hasLetters && !hasDecimal){
+      // large number 34b
+      parsed = multiLetter(payload);
+    } else if (!hasComma && !hasLetters && !hasDecimal){
+      parsed = d(payload).toNumber();
+    } else {
+      console.error('edgeCase not found');
+    }
+  }
+
+  return {
+    raw: payload,
+    parsed,
+    isNegative,
+    isPercentage,
+    hasComma,
+    hasDecimal,
+    hasLetters,
+    multiplier,
+    hasZeros,
+    split
+  }
 }
 
 const parser = {
   normalizePrice(payload){
-    return parsePrice(payload);
-    // if(typeof payload === 'number'){
-    //   return payload;
-    // }
-    // const multiplier = positiveOrNegative(payload);
-    // let result = 0;
-    // if(/[kmbt]/.test(payload)){
-    //   result = parseLetter(payload);
-    // } else if(/,/.test(payload)){
-    //
-    // } else if(/%/.test(payload)){
-    //
-    // }
-    // return result * multiplier;
+    return interpolate(payload).parsed;
   },
   removeSymbols(string) {
     let payload = '';
