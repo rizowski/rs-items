@@ -98,6 +98,12 @@ describe('parser tests', ()=>{
       const result = parser.normalizePrice(num);
       expect(result).to.equal(6000000000000);
     });
+
+    it('handles x.yl ex) 5.8m', () =>{
+      const num = '5.8m';
+      const result = parser.normalizePrice(num);
+      expect(result).to.equal(5800000);
+    })
   });
 
   describe('symbols', () =>{

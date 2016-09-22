@@ -40,21 +40,16 @@ function interpolate(payload){
   const hasLetters = letters.test(payload);
   const hasZeros = zero.test(payload);
   const polarity = isNegative ? new D('-1') : new D('1');
+  const letter = hasLetters && letters.exec(payload)[0];
 
   let split = [];
   let multiplier = 1;
-  let letter;
   let parsed = null;
 
   if(hasComma && !hasDecimal){
     split = payload.split(',');
   } else if(!hasComma && hasDecimal){
     split = payload.split('.');
-  }
-
-  if(hasLetters){
-    let result = letters.exec(payload);
-    letter = result[0];
   }
 
   if(isPercentage){
@@ -77,6 +72,10 @@ function interpolate(payload){
     } else if(!hasComma && hasLetters && !hasDecimal){
       // large number 34b
       parsed = multiLetter(payload);
+    } else if(!hasComma && hasLetters && hasDecimal){
+      let result = num.exec(payload)[0];
+      let deci = new D(result);
+      parsed = deci.mul(letterMap[letter]).toNumber();
     } else if (!hasComma && !hasLetters && !hasDecimal){
       parsed = new D(payload.split('+').join('')).toNumber();
     } else {
@@ -92,6 +91,7 @@ function interpolate(payload){
     hasComma,
     hasDecimal,
     hasLetters,
+    letter,
     hasZeros,
     split
   }
