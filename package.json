@@ -7,8 +7,7 @@
     "test": "mocha --recursive tests",
     "clean": "rm -rf node_modules",
     "predeploy": "npm run clean && npm i --production",
-    "deploy": "serverless deploy",
-    "prepublish": "npm run deploy"
+    "deploy": "serverless deploy"
   },
   "repository": {
     "type": "git",
@@ -22,7 +21,7 @@
   "homepage": "https://github.com/rizowski/rs-items#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
-    "decimal": "0.0.2",
+    "decimal.js": "^6.0.0",
     "lodash": "^4.15.0",
     "request": "^2.74.0"
   },

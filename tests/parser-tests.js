@@ -41,12 +41,19 @@ describe('parser tests', ()=>{
       expect(result).to.equal(5);
     });
   });
+
   describe('percentages', () =>{
     it('handles percentages', () =>{
       const num = '10%';
       const result = parser.normalizePrice(num);
       expect(result).to.equal(0.1);
     });
+
+    it('handles under tenths percentages', () =>{
+      const num = '-9.0%';
+      const result = parser.normalizePrice(num);
+      expect(result).to.equal(-0.09);
+    })
 
     it('handles percentages with + signs', () =>{
       const num = '+20.0%';

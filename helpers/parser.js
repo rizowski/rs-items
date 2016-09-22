@@ -1,12 +1,12 @@
 'use strict';
 const _ = require('lodash');
-const d = require('decimal');
+const D = require('decimal.js');
 
 const letterMap = {
-  k: d('1000'),
-  m: d('1000000'),
-  b: d('1000000000'),
-  t: d('1000000000000')
+  k: new D('1000'),
+  m: new D('1000000'),
+  b: new D('1000000000'),
+  t: new D('1000000000000')
 };
 
 const zeroCounts = {
@@ -16,7 +16,7 @@ const zeroCounts = {
   t: 12
 };
 
-const num = /\d+([.]?\d?\d?)?/;
+const num = /[-]?\d+([.]?\d?\d?)?/;
 const letters = /[kmbt]/;
 const comma = /[,]/;
 const zero = /[0]/;
@@ -39,7 +39,7 @@ function interpolate(payload){
   const isPercentage = /[%]/.test(payload) && !hasComma;
   const hasLetters = letters.test(payload);
   const hasZeros = zero.test(payload);
-  const polarity = isNegative ? d('-1') : d('1');
+  const polarity = isNegative ? new D('-1') : new D('1');
 
   let split = [];
   let multiplier = 1;
@@ -58,27 +58,27 @@ function interpolate(payload){
   }
 
   if(isPercentage){
-    const percent = d('0.01');
+    const percent = new D('0.01');
     let result = num.exec(payload);
-    let percentage = d(result[0]);
-    parsed = percentage.mul(percent).mul(polarity).toNumber();
+    let percentage = new D(result[0]);
+    parsed = percentage.mul(percent).toNumber();
   } else {
     if(hasComma && hasLetters && !hasDecimal){
       // is thousands 33,000k
-      let thousands = d(split[0]).mul(1000);
+      let thousands = new D(split[0]).mul(1000);
       let numberWOLetters = _.without(split[1].split(''), 'k', 'm', 'b', 't').join('');
-      let hundreds = d(numberWOLetters);
+      let hundreds = new D(numberWOLetters);
       parsed = thousands.add(hundreds).toNumber();
     } else if(hasComma && !hasLetters && !hasDecimal){
       // 4,000
-      let thousands = d(split[0]).mul(1000);
-      let hundreds = d(split[1]);
+      let thousands = new D(split[0]).mul(1000);
+      let hundreds = new D(split[1]);
       parsed = thousands.add(hundreds).toNumber();
     } else if(!hasComma && hasLetters && !hasDecimal){
       // large number 34b
       parsed = multiLetter(payload);
     } else if (!hasComma && !hasLetters && !hasDecimal){
-      parsed = d(payload).toNumber();
+      parsed = new D(payload.split('+').join('')).toNumber();
     } else {
       throw new Error('edgeCase not found');
     }
@@ -100,7 +100,6 @@ function interpolate(payload){
 const parser = {
   normalizePrice(payload){
     const result = interpolate(payload);
-    console.log(result);
     return result.parsed;
   },
   removeSymbols(string) {
