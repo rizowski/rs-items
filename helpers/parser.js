@@ -100,6 +100,7 @@ function interpolate(payload){
 const parser = {
   normalizePrice(payload){
     const result = interpolate(payload);
+    console.log(result);
     return result.parsed;
   },
   removeSymbols(string) {
