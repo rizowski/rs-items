@@ -1,6 +1,6 @@
 'use strict';
 
-let parser = require('../helpers/parser');
+let parser = require('../build/parser');
 let expect = require('chai').expect;
 
 describe('parser tests', ()=>{

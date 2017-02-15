@@ -1,11 +1,8 @@
 'use strict';
 const http = require('http');
-const request = require('request');
-const Promise = require('bluebird');
-const _ = require('lodash');
 
-const parser = require('./helpers/parser');
-const query = require('./helpers/query');
+const parser = require('./build/parser');
+const query = require('./build/query');
 
 const funcs = {
   getItemData(params, ctx, cb){

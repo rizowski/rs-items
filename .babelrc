@@ -1,4 +1,7 @@
 {
-  "plugins": [],
-  "presets" : ["stage-2"]
+  "plugins": ["add-module-exports"],
+  "presets": [
+    ["env", { "targets": { "node": 4 } }],
+    "stage-2"
+  ]
 }

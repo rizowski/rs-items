@@ -1,6 +1,5 @@
-'use strict';
-const _ = require('lodash');
-const D = require('decimal.js');
+import _ from 'lodash';
+import D from 'decimal.js';
 
 const letterMap = {
   k: new D('1000'),
@@ -100,7 +99,6 @@ function interpolate(payload){
 const parser = {
   normalizePrice(payload){
     const result = interpolate(payload);
-    console.log(result);
     return result.parsed;
   },
   removeSymbols(string) {
@@ -116,4 +114,4 @@ const parser = {
   }
 };
 
-module.exports = parser;
+export default parser;
