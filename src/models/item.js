@@ -1,37 +1,11 @@
 'use strict';
 const _ = require('lodash');
 const parser = require('../parser');
-/*
-array.push(rsItem.name);
-array.push(rsItem.type);
-array.push(rsItem.membersitem);
-
-array.push(rsItem.prices.current.trend);
-array.push(removeSymbols_(rsItem.prices.current.price));
-
-array.push(rsItem.prices.today.trend);
-array.push(removeSymbols_(rsItem.prices.today.price));
-
-array.push(rsItem.prices.days30.trend);
-array.push(removeSymbols_(rsItem.prices.days30.change));
-
-array.push(rsItem.prices.days90.trend);
-array.push(removeSymbols_(rsItem.prices.days90.change));
-
-array.push(rsItem.prices.days180.trend);
-array.push(removeSymbols_(rsItem.prices.days180.change));
-
-array.push(rsItem.icon);
-
-array.push("");// Consumable type
-array.push(new Date());// date updated
-*/
-
-
 
 const factory = {
   normalize(item){// the result not the item returned from api
     const baseItem = _.omit(item, ['prices', 'members']);
+
     return _.defaultsDeep({}, {
       members: item.member === 'true',
       current: {

@@ -19,7 +19,7 @@ service: runescape # NOTE: update this with your service name
 
 provider:
   name: aws
-  runtime: nodejs4.3
+  runtime: nodejs6.10
   region: us-west-1
 
 # you can overwrite defaults here
@@ -55,8 +55,14 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  getItemsData:
+    handler: handler.getItemsData
   getItemData:
     handler: handler.getItemData
+  getCategory:
+    handler: handler.getCategory
+  getItemsByCategory:
+    handler: handler.getItemsByCategory
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
